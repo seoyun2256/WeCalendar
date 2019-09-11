@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.RequestWrapper;
 
 import com.wecal.command.CommandWC;
 import com.wecal.command.JoinWC;
@@ -47,19 +48,15 @@ public class WeCalController extends HttpServlet {
 			viewPage = "Join/joinSuccess.jsp";
 			break;
 		case "idcheck.do":
-			MemberDTO mdto = new MemberDTO();
-			mdto.setMember_id(request.getParameter("id"));
-			
+			boolean idc = false;
 			MemberDAO mdao = new MemberDAO();
-			if(mdao.idCheck(mdto)) {
-				System.out.println("ok");
-				request.setAttribute("idc", "ok");
+			if(mdao.idCheck(request.getParameter("id"))) {
+				idc = true;
 			}
 			else {
-				System.out.println("no");
-				request.setAttribute("idc", "no");
+				idc = false;
 			}
-			viewPage = "join.jsp";
+			viewPage = "idcheck.jsp?idc="+idc;
 			break;
 		}
 		

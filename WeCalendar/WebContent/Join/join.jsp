@@ -24,11 +24,9 @@ table {
 
 var pwd_check = true;
 var pwd_check2 = true;
+var id_check = true;
 
 $(function(){
-	
-	alert(<%=request.getParameter("idc") %>);
-	
 	$('#member_pwd').keyup(function(){
 		passwordCheck($('#member_pwd').val(), $('#member_id').val());
 	})
@@ -46,6 +44,11 @@ function formCheck(){
 	}
 	if($('#member_id').val() == ""){
 		alert("아이디를 입력해주세요!");
+		$('#member_id').focus();
+		return;
+	}
+	if(id_check){
+		alert("아이디 중복검사를 해주세요!");
 		$('#member_id').focus();
 		return;
 	}
@@ -106,7 +109,33 @@ function passwordCheck2(password, check){
 }
 
 function idCheck(){
-	location.href = "idcheck.do?id="+$('#member_id').val();
+	if($('#member_id').val() == ""){
+		alert("아이디를 입력해주세요!");
+		$('#member_id').focus();
+		return;
+	}
+	else{
+		$.ajax({
+			type:'POST',
+			url:'idcheck.do',
+			data:{
+				"id":$('#member_id').val()
+			},
+			success:function(data){
+				if(data == "true"){
+					alert("사용할 수 있는 아이디 입니다.");
+					id_check = false;
+				}
+				else if(data == "false"){
+					alert("중복되는 아이디 입니다.");
+					id_check = true;
+				}
+			},
+			error:function(e){
+				alert("error: "+e);
+			}
+		})
+	}
 }
 
 </script>

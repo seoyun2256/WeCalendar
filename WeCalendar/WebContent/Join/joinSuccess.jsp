@@ -7,4 +7,3 @@ $(function(){
 	window.location.replace('../WeCalendar/MainView/wecal_LoginView.jsp');
 })
 </script>
-</head>

@@ -38,15 +38,14 @@ public class MemberDAO {
 		}
 	}
 	
-	public boolean idCheck(MemberDTO mdto) {
-		this.mdto = mdto;
+	public boolean idCheck(String id) {
 		
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
             String sql = "select * from memberwc where member_id=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, mdto.getMember_id());
+            pstmt.setString(1, id);
             rs = pstmt.executeQuery();
             
             if(rs.next()) {
