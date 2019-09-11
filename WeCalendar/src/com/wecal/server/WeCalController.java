@@ -1,7 +1,6 @@
 package com.wecal.server;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.wecal.command.CommandWC;
 import com.wecal.command.JoinWC;
+import com.wecal.db.MemberDAO;
+import com.wecal.db.MemberDTO;
 
 
 @WebServlet("*.do")
@@ -45,9 +46,25 @@ public class WeCalController extends HttpServlet {
 			comm.execute(request, response);
 			viewPage = "Join/joinSuccess.jsp";
 			break;
+		case "idcheck.do":
+			MemberDTO mdto = new MemberDTO();
+			mdto.setMember_id(request.getParameter("id"));
+			
+			MemberDAO mdao = new MemberDAO();
+			if(mdao.idCheck(mdto)) {
+				System.out.println("ok");
+				request.setAttribute("idc", "ok");
+			}
+			else {
+				System.out.println("no");
+				request.setAttribute("idc", "no");
+			}
+			viewPage = "join.jsp";
+			break;
 		}
 		
         RequestDispatcher rd = request.getRequestDispatcher(viewPage);
+        
         try {
 			rd.forward(request, response);
 		} catch (Exception e) {
