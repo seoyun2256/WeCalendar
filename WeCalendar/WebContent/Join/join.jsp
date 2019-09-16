@@ -13,7 +13,7 @@ table {
 #subject {
 	font-size: 30px;
 }
-#pwd_hint, #pwd_check_hint {
+#pwd_hint, #pwd_check_hint, #email_hint {
 	border: none;
 	background-color: white;
 	width: 500px;
@@ -25,6 +25,7 @@ table {
 var pwd_check = true;
 var pwd_check2 = true;
 var id_check = true;
+var email_check = true;
 
 $(function(){
 	$('#member_pwd').keyup(function(){
@@ -32,6 +33,9 @@ $(function(){
 	})
 	$('#member_pwd_check').keyup(function(){
 		passwordCheck2($('#member_pwd').val(), $('#member_pwd_check').val());
+	})
+	$('#member_id').keyup(function(){
+		emailCheck($('#member_id').val());
 	})
 })
 
@@ -44,6 +48,11 @@ function formCheck(){
 	}
 	if($('#member_id').val() == ""){
 		alert("아이디를 입력해주세요!");
+		$('#member_id').focus();
+		return;
+	}
+	if(email_check){
+		alert("올바른 이메일 형식이 아닙니다!");
 		$('#member_id').focus();
 		return;
 	}
@@ -108,9 +117,27 @@ function passwordCheck2(password, check){
 	}
 }
 
+function emailCheck(id){
+	if(!/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/i.test(id)){
+        $('#email_hint').val('이메일 형식이 아닙니다.');
+        $('#email_hint').css('color','red');
+        email_check = true;
+	}
+	else{
+        $('#email_hint').val('올바른 이메일 형식입니다.');
+        $('#email_hint').css('color','green');
+        email_check = false;
+	}
+}
+
 function idCheck(){
 	if($('#member_id').val() == ""){
 		alert("아이디를 입력해주세요!");
+		$('#member_id').focus();
+		return;
+	}
+	else if(email_check){
+		alert("올바른 이메일 형식이 아닙니다!");
 		$('#member_id').focus();
 		return;
 	}
@@ -152,7 +179,11 @@ function idCheck(){
 			</tr>
 			<tr>
 				<td class="text">아이디</td>
-				<td><input type="text" id="member_id" name="member_id"><input type="button" value="중복확인" onclick="idCheck()"></td>
+				<td>
+					<input type="text" id="member_id" name="member_id"><input type="button" value="중복확인" onclick="idCheck()">
+					<br>
+					<input type="text" id="email_hint" value="이메일 형식으로 아이디를 지정해 주세요." disabled="disabled">
+				</td>
 			</tr>
 			<tr>
 				<td class="text">비밀번호</td>
