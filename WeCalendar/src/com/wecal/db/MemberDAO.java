@@ -67,5 +67,43 @@ public class MemberDAO {
 			}
 		}
 	}
+	
+	public int login(String id, String pwd) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "select member_pwd from memberwc where member_id=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if(rs.next()) {
+            	// 아이디 존재함
+            	if(rs.getString(1).equals(pwd)) {
+            		// 로그인 성공
+            		return 3;
+            	}
+            	else {
+            		// 비밀번호 오류
+            		return 2;
+            	}
+            }
+            
+            // 아이디 존재하지 않음
+        	return 1;
+        	
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return 0;
+	}
 
 }
