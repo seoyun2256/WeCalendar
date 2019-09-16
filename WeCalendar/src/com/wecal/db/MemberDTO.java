@@ -7,8 +7,15 @@ public class MemberDTO {
 	private String member_id;
 	private String member_pwd;
 	private String member_birth;
+	private String member_date;
 	private String member_sex;
 	
+	public String getMember_date() {
+		return member_date;
+	}
+	public void setMember_date(String member_date) {
+		this.member_date = member_date;
+	}
 	public String getMember_name() {
 		return member_name;
 	}

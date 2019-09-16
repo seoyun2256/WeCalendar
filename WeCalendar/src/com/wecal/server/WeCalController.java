@@ -66,13 +66,11 @@ public class WeCalController extends HttpServlet {
 			switch(mdao.login(request.getParameter("user_id"), request.getParameter("user_pwd"))) {
 			case 1:
 				// 아이디 존재하지 않음
-				System.out.println("case 1");
 				request.setAttribute("chk", 1);
 				viewPage = "../Login/loginfailed.jsp";
 				break;
 			case 2:
 				// 비밀번호 오류
-				System.out.println("case 2");
 				request.setAttribute("chk", 2);
 				viewPage = "../Login/loginfailed.jsp";
 				break;
