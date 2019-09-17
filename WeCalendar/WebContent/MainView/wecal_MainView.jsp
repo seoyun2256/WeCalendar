@@ -54,7 +54,7 @@ body {
 header {
 	height: 15%;
 }
-article {
+.mainT {
 	height: 70%;
 }
 footer {
@@ -81,6 +81,26 @@ a:active {
 a:hover {
 	font-size:16pt; color:red;text-decoration:none;
 }
+
+.userT_subject {
+	border: 1px solid #ced99c;
+	background-color: #f3f9d7;
+}
+.userT th {
+	
+}
+.userT td {
+	text-align: center;
+	font-size: 15px;
+	padding: 10px;
+}
+.user_modify {
+	padding: 0px;
+}
+.modify_button {
+	width: 100%;
+	height: 94px;
+}
 </style>
 </head>
 <%
@@ -89,6 +109,11 @@ Connection  conn = null;
 PreparedStatement pstmt = null;
 ResultSet rs = null;
 MemberDTO mdto = null;
+
+String[] births = null;
+String[] ddds = null;
+String birth = "";
+String ddd = "";
 
 System.out.println(session.getAttribute("id"));
 
@@ -106,7 +131,13 @@ try {
     	mdto.setMember_sex(rs.getString("member_sex"));
     	mdto.setMember_birth(rs.getString("member_birth"));
     	mdto.setMember_date(rs.getString("member_date"));
+    	mdto.setMember_id(rs.getString("member_id"));
     }
+
+    births = mdto.getMember_birth().split(" ");
+    birth = births[0];
+    ddds = mdto.getMember_date().split(" ");
+    ddd = ddds[0];
 	
 } catch (Exception e) {
 	e.printStackTrace();
@@ -125,157 +156,160 @@ try {
 	<header>
 		<h1>We Calendar</h1>
 	</header>
-	<article>
-		<section>
-			<table>
-				<tr>
-					<td>
-						<!-- 사용자 화면 -->
-						<table width="100%" border="0" cellspacing="1" cellpadding="1">
-							<tr>
-								<td>이름</td>
-								<td><%=mdto.getMember_name() %></td>
+		<table class="mainT">
+			<tr>
+				<td width="20%">
+					<!-- 사용자 화면 -->
+					<table border="0" cellspacing="1" cellpadding="1" class="userT">
+						<tr height="30px"></tr>
+						<tr height="60px">
+							<td colspan="2" class="userT_subject"><b>회원 정보</b></td>
+						</tr>
+						<tr height="20px"></tr>
+						<tr height="100px">
+							<th>이름</th>
+							<td><%=mdto.getMember_name() %></td>
+						</tr>
+						<tr height="100px">
+							<th>성별</th>
+							<td><%=mdto.getMember_sex() %></td>
+						</tr>
+						<tr height="100px">
+							<th>생일</th>
+							<td><%=birth %></td>
+						</tr>
+						<tr height="100px">
+							<th>가입일</th>
+							<td><%=ddd %></td>
+						</tr>
+						<tr height="98px">
+							<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="button" value="회원정보 수정" class="modify_button" onclick="javascript:location.href='<c:url value='modify_user.jsp'/>'" /></td>
+						</tr>
+					</table>
+				</td>
+				<td width="60%">
+					<table width="100%" border="0" cellspacing="1" cellpadding="1">
+						<tr>
+							<td align ="right">
+								<input type="button" onclick="javascript:location.href='<c:url value='wecal_MainView.jsp' />'" value="오늘"/>
+							</td>
+						</tr>
+					</table>
+					<table class="calHead" cellspacing="1" cellpadding="1">
+						<tr>
+							<td height="10">
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=<%=month%>'>
+									<b>&lt;&lt;</b>
+								</a>
+								<%if(month > 0){ %>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month-1%>'>
+									<b>&lt;</b>
+								</a>
+								<%} else {%>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=11'>
+									<b>&lt;</b>
+								</a>
+								<%} %>
+								&nbsp;&nbsp;
+								<%=year %>년
+								
+								<%=month+1 %>월
+								&nbsp;&nbsp;
+								<%if(month < 11){ %>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month+1%>'>
+									<b>&gt;</b>
+								</a>
+								<%} else { %>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=0'>
+									<b>&gt;</b>
+								</a>
+								<%} %>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=<%=month%>'>
+									<b>&gt;&gt;</b>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td height="10">
+							</td>
+						</tr>
+					</table>
+					<br>
+					<table border="0" cellspacing="1" cellpadding="1" class="calBody">
+						<thead>	
+							<tr bgcolor="#cecece">
+								<td width="100px;"><div align="center"><font color="red">일</font></div></td>
+								<td width="100px;"><div align="center">월</div></td>
+								<td width="100px;"><div align="center">화</div></td>
+								<td width="100px;"><div align="center">수</div></td>
+								<td width="100px;"><div align="center">목</div></td>
+								<td width="100px;"><div align="center">금</div></td>
+								<td width="100px;"><div align="center"><font color="#529dbc">토</font></div></td>
 							</tr>
+						</thead>
+						<tbody>
 							<tr>
-								<td>성별</td>
-								<td><%=mdto.getMember_sex() %></td>
-							</tr>
-							<tr>
-								<td>생일</td>
-								<td><%=mdto.getMember_birth() %></td>
-							</tr>
-							<tr>
-								<td>가입일</td>
-								<td><%=mdto.getMember_date() %></td>
-							</tr>
-						</table>
-					</td>
-					<td>
-						<table width="100%" border="0" cellspacing="1" cellpadding="1">
-							<tr>
-								<td align ="right">
-									<input type="button" onclick="javascript:location.href='<c:url value='wecal_MainView.jsp' />'" value="오늘"/>
-								</td>
-							</tr>
-						</table>
-						<table class="calHead" cellspacing="1" cellpadding="1">
-							<tr>
-								<td height="10">
-								</td>
-							</tr>
-							<tr>
-								<td align="center">
-									<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=<%=month%>'>
-										<b>&lt;&lt;</b>
-									</a>
-									<%if(month > 0){ %>
-									<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month-1%>'>
-										<b>&lt;</b>
-									</a>
-									<%} else {%>
-									<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=11'>
-										<b>&lt;</b>
-									</a>
-									<%} %>
-									&nbsp;&nbsp;
-									<%=year %>년
-									
-									<%=month+1 %>월
-									&nbsp;&nbsp;
-									<%if(month < 11){ %>
-									<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month+1%>'>
-										<b>&gt;</b>
-									</a>
-									<%} else { %>
-									<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=0'>
-										<b>&gt;</b>
-									</a>
-									<%} %>
-									<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=<%=month%>'>
-										<b>&gt;&gt;</b>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td height="10">
-								</td>
-							</tr>
-						</table>
-						<br>
-						<table border="0" cellspacing="1" cellpadding="1" class="calBody">
-							<thead>	
-								<tr bgcolor="#cecece">
-									<td width="100px;"><div align="center"><font color="red">일</font></div></td>
-									<td width="100px;"><div align="center">월</div></td>
-									<td width="100px;"><div align="center">화</div></td>
-									<td width="100px;"><div align="center">수</div></td>
-									<td width="100px;"><div align="center">목</div></td>
-									<td width="100px;"><div align="center">금</div></td>
-									<td width="100px;"><div align="center"><font color="#529dbc">토</font></div></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-								<%
-								for(int i=1; i<start; i++){
-								%>
-									<td>&nbsp;</td>
-								<%
-									newLine++;
+							<%
+							for(int i=1; i<start; i++){
+							%>
+								<td>&nbsp;</td>
+							<%
+								newLine++;
+							}
+							
+							for(int i=1; i<=endDay; i++){
+								String color = "";
+								
+								if(newLine == 0){
+									color="RED";
+								}
+								else if(newLine == 6){
+									color="529dbc";
+								}
+								else{
+									color="BLACK";
 								}
 								
-								for(int i=1; i<=endDay; i++){
-									String color = "";
-									
-									if(newLine == 0){
-										color="RED";
-									}
-									else if(newLine == 6){
-										color="529dbc";
-									}
-									else{
-										color="BLACK";
-									}
-									
+								%>
+								<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+									<font color="<%=color%>"><%=i %></font>
+								</td>
+								<%
+								newLine++;
+								
+								if(newLine == 7){
 									%>
-									<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
-										<font color="<%=color%>"><%=i %></font>
-									</td>
+									</tr>
 									<%
-									newLine++;
-									
-									if(newLine == 7){
+									if(i <= endDay){
 										%>
-										</tr>
+										<tr>
 										<%
-										if(i <= endDay){
-											%>
-											<tr>
-											<%
-										}
-										newLine = 0;
 									}
+									newLine = 0;
 								}
-								
-								while(newLine > 0 && newLine < 7){
-									%>
-									<td>&nbsp;</td>
-									<%
-									newLine++;
-								}
+							}
+							
+							while(newLine > 0 && newLine < 7){
 								%>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-					<td>
-						<!-- 모임 화면 -->
-					</td>
-				</tr>
-			</table>
-		</section>
-		<section></section>
-	</article>
+								<td>&nbsp;</td>
+								<%
+								newLine++;
+							}
+							%>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td width="20%">
+					<!-- 모임 화면 -->
+				</td>
+			</tr>
+		</table>
 	<footer>
 		Copyright &copy; 2019 All right reserved.
 	</footer>

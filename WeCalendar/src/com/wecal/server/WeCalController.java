@@ -83,6 +83,10 @@ public class WeCalController extends HttpServlet {
 			}
 			break;
 			
+		case "modify_user.do":
+			
+			break;
+			
 		}
 		
         RequestDispatcher rd = request.getRequestDispatcher(viewPage);
