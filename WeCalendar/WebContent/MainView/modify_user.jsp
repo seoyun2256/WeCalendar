@@ -47,9 +47,9 @@ String ddd = "";
 try {
     Class.forName("oracle.jdbc.driver.OracleDriver");
     conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-    String sql = "select * from memberwc where member_id=?";
+    String sql = "select * from memberwc where member_num=?";
     pstmt = conn.prepareStatement(sql);
-    pstmt.setString(1, session.getAttribute("id").toString());
+    pstmt.setInt(1, Integer.parseInt(session.getAttribute("mnum").toString()));
     rs = pstmt.executeQuery();
     
     mdto = new MemberDTO();
@@ -78,46 +78,66 @@ try {
 	}
 }
 %>
-<table border="0" cellspacing="1" cellpadding="1" class="userT">
-	<tr height="30px"></tr>
-	<tr height="60px">
-		<td colspan="2" class="userT_subject"><b>회원 정보</b></td>
-	</tr>
-	<tr height="20px"></tr>
-	<tr height="100px">
-		<th>이름</th>
-		<td>
-			<%=mdto.getMember_name() %><br>
-			<input type="text" id="member_name" name="member_name">
-		</td>
-	</tr>
-	<tr height="100px">
-		<th>성별</th>
-		<td>
-			<%=mdto.getMember_sex() %><br>
-			<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
-			<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
-			<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
-		</td>
-	</tr>
-	<tr height="100px">
-		<th>생일</th>
-		<td>
-			<%=birth %><br>
-			<input type="date" id="member_birth" name="member_birth">
-		</td>
-	</tr>
-	<tr height="100px">
-		<th>가입일</th>
-		<td><%=ddd %></td>
-	</tr>
-	<tr>
-		<th>비밀번호</th>
-		<td><input type="password" id="member_pwd" name="member_pwd"></td>
-	</tr>
-	<tr height="98px">
-		<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="button" value="회원정보 수정" class="modify_button" onclick="javascript:location.href='<c:url value='modify_user.jsp' />'" /></td>
-	</tr>
-</table>
+<form action="modify_user.do" method="post" onkeydown="javascript:if(event.keyCode==13) return false;">
+	<table border="0" cellspacing="1" cellpadding="1" class="userT">
+		<tr height="30px"></tr>
+		<tr height="60px">
+			<td colspan="2" class="userT_subject"><b>회원 정보</b></td>
+		</tr>
+		<tr height="20px"></tr>
+		<tr height="100px">
+			<th>이름</th>
+			<td>
+				<input type="hidden" id="member_id" name="member_id" value="<%=mdto.getMember_id() %>">
+				<input type="text" id="member_name" name="member_name" value="<%=mdto.getMember_name() %>">
+			</td>
+		</tr>
+		<tr height="100px">
+			<th>성별</th>
+			<td>
+				<%
+				if(mdto.getMember_sex().equals("남자")){
+					%>
+					<label><input id="member_sex" name="member_sex" type="radio" value="남자" checked="checked">남자</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
+					<%
+				}
+				else if(mdto.getMember_sex().equals("여자")){
+					%>
+					<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="여자" checked="checked">여자</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
+					<%
+				}
+				else{
+					%>
+					<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="기타" checked="checked">기타</label>
+					<%
+				}
+				%>
+			</td>
+		</tr>
+		<tr height="100px">
+			<th>생일</th>
+			<td>
+				<input type="date" id="member_birth" name="member_birth" value="<%=birth %>">
+			</td>
+		</tr>
+		<tr height="100px">
+			<th>가입일</th>
+			<td><%=ddd %></td>
+		</tr>
+		<tr>
+			<th>비밀번호</th>
+			<td><input type="password" id="member_pwd" name="member_pwd"></td>
+		</tr>
+		<tr height="98px">
+			<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="submit" value="회원정보 수정" class="modify_button"/></td>
+		</tr>
+	</table>
+</form>
 </body>
 </html>

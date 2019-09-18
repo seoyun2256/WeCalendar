@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.wecal.db.MeetDTO"%>
 <%@page import="com.wecal.db.MemberDTO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -70,16 +72,16 @@ footer {
 }
 
 a:link { 
-	font-size:16pt; color:#000000; text-decoration:none;
+	color:#000000; text-decoration:none;
 }
 a:visited {
-	font-size:16pt; color:#000000; text-decoration:none;
+	color:#000000; text-decoration:none;
 }
 a:active {
-	font-size:16pt; color:red; text-decoration:none;
+	color:red; text-decoration:none;
 }
 a:hover {
-	font-size:16pt; color:red;text-decoration:none;
+	color:red;text-decoration:none;
 }
 
 .userT_subject {
@@ -109,20 +111,21 @@ Connection  conn = null;
 PreparedStatement pstmt = null;
 ResultSet rs = null;
 MemberDTO mdto = null;
+ArrayList<MeetDTO> mtdtos = null;
 
 String[] births = null;
 String[] ddds = null;
 String birth = "";
 String ddd = "";
 
-System.out.println(session.getAttribute("id"));
+System.out.println(session.getAttribute("mnum"));
 
 try {
     Class.forName("oracle.jdbc.driver.OracleDriver");
     conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-    String sql = "select * from memberwc where member_id=?";
+    String sql = "select * from memberwc where member_num=?";
     pstmt = conn.prepareStatement(sql);
-    pstmt.setString(1, session.getAttribute("id").toString());
+    pstmt.setInt(1, Integer.parseInt(session.getAttribute("mnum").toString()));
     rs = pstmt.executeQuery();
     
     mdto = new MemberDTO();
@@ -158,7 +161,7 @@ try {
 	</header>
 		<table class="mainT">
 			<tr>
-				<td width="20%">
+				<td width="20%" align="center">
 					<!-- 사용자 화면 -->
 					<table border="0" cellspacing="1" cellpadding="1" class="userT">
 						<tr height="30px"></tr>
@@ -202,15 +205,15 @@ try {
 						</tr>
 						<tr>
 							<td align="center">
-								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=<%=month%>'>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=<%=month%>' style="font-size: 16pt;">
 									<b>&lt;&lt;</b>
 								</a>
 								<%if(month > 0){ %>
-								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month-1%>'>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month-1%>' style="font-size: 16pt;">
 									<b>&lt;</b>
 								</a>
 								<%} else {%>
-								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=11'>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year-1%>&month=11' style="font-size: 16pt;">
 									<b>&lt;</b>
 								</a>
 								<%} %>
@@ -220,15 +223,15 @@ try {
 								<%=month+1 %>월
 								&nbsp;&nbsp;
 								<%if(month < 11){ %>
-								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month+1%>'>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month+1%>' style="font-size: 16pt;">
 									<b>&gt;</b>
 								</a>
 								<%} else { %>
-								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=0'>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=0' style="font-size: 16pt;">
 									<b>&gt;</b>
 								</a>
 								<%} %>
-								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=<%=month%>'>
+								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year+1%>&month=<%=month%>' style="font-size: 16pt;">
 									<b>&gt;&gt;</b>
 								</a>
 							</td>
@@ -305,8 +308,57 @@ try {
 						</tbody>
 					</table>
 				</td>
-				<td width="20%">
+				<%
+				try {
+				    Class.forName("oracle.jdbc.driver.OracleDriver");
+				    conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+				    String sql = "select * from meetwc where meet_num in (select meet_num from member_meet where member_num=?)";
+				    pstmt = conn.prepareStatement(sql);
+				    pstmt.setInt(1, Integer.parseInt(session.getAttribute("mnum").toString()));
+				    rs = pstmt.executeQuery();
+				    
+				    mtdtos = new ArrayList<MeetDTO>();
+				    
+				    while(rs.next()){
+					    MeetDTO mtdto = new MeetDTO();
+				    	mtdto.setMeet_name(rs.getString("meet_name"));
+				    	mtdto.setMeet_content(rs.getString("meet_content"));
+				    	mtdtos.add(mtdto);
+				    }
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(rs != null) rs.close();
+						if(pstmt != null) pstmt.close();
+						if(conn != null) conn.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				%>
+				<td width="20%" style="padding-left: 10px;">
 					<!-- 모임 화면 -->
+					<div style="background-color: #bdecb6;"><b>가입한 모임</b></div>
+					<div style="overflow: auto; background-color: #f3f9d7; width: 100%; height: 80%;">
+					<%
+					for(int i=0; i<mtdtos.size(); i++){
+					%>
+						<p>
+							<a>
+								<b><%=mtdtos.get(i).getMeet_name() %></b><br><%=mtdtos.get(i).getMeet_content() %>
+							</a>
+						</p>
+						<hr>
+					<%
+					}
+					%>
+					</div>
+					<div>
+						<p><input type="button" value="모임 생성하기" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='../Meet/create_meet.jsp'/>'"></p>
+						<p><input type="button" value="모임 가입하기" style="width: 100%; height: 30px;"></p>
+					</div>
 				</td>
 			</tr>
 		</table>

@@ -72,30 +72,58 @@ public class MemberDAO {
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-            String sql = "select member_pwd from memberwc where member_id=?";
+            String sql = "select member_num, member_pwd from memberwc where member_id=?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
             if(rs.next()) {
             	// 아이디 존재함
-            	if(rs.getString(1).equals(pwd)) {
+            	if(rs.getString("member_pwd").equals(pwd)) {
             		// 로그인 성공
-            		return 3;
+            		return rs.getInt("member_num");
             	}
             	else {
             		// 비밀번호 오류
-            		return 2;
+            		return -2;
             	}
             }
             
             // 아이디 존재하지 않음
-        	return 1;
+        	return -1;
         	
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return -1;
+	}
+	
+	public int modify_user(MemberDTO mdto) {
+		this.mdto = mdto;
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "update memberwc set member_name=?, member_sex=?, member_birth=? where member_id=? and member_pwd=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, mdto.getMember_name());
+            pstmt.setString(2, mdto.getMember_sex());
+            pstmt.setString(3, mdto.getMember_birth());
+            pstmt.setString(4, mdto.getMember_id());
+            pstmt.setString(5, mdto.getMember_pwd());
+            return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			} catch (Exception e) {

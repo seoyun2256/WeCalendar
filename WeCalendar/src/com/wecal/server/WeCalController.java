@@ -1,6 +1,7 @@
 package com.wecal.server;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.ws.RequestWrapper;
 
 import com.wecal.command.CommandWC;
+import com.wecal.command.CreateMeetWC;
 import com.wecal.command.JoinWC;
 import com.wecal.db.MemberDAO;
 import com.wecal.db.MemberDTO;
@@ -43,6 +45,7 @@ public class WeCalController extends HttpServlet {
 		String viewPage = null;
 		MemberDAO mdao = new MemberDAO();
 		
+//		System.out.println(uri);
 		switch(uri) {
 		
 		case "join.do":
@@ -63,28 +66,58 @@ public class WeCalController extends HttpServlet {
 			break;
 			
 		case "login.do":
-			switch(mdao.login(request.getParameter("user_id"), request.getParameter("user_pwd"))) {
-			case 1:
+			int mnum = mdao.login(request.getParameter("user_id"), request.getParameter("user_pwd"));
+			switch(mnum) {
+			case -1:
 				// 아이디 존재하지 않음
 				request.setAttribute("chk", 1);
 				viewPage = "../Login/loginfailed.jsp";
 				break;
-			case 2:
+			case -2:
 				// 비밀번호 오류
 				request.setAttribute("chk", 2);
 				viewPage = "../Login/loginfailed.jsp";
 				break;
-			case 3:
+			default:
 				// 로그인 성공
 				HttpSession session = request.getSession();
-				session.setAttribute("id", request.getParameter("user_id"));
+				session.setAttribute("mnum", mnum);
 				viewPage = "wecal_MainView.jsp";
 				break;
 			}
 			break;
 			
 		case "modify_user.do":
+			try {
+				request.setCharacterEncoding("EUC-KR");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			
+			MemberDTO mdto = new MemberDTO();
+			mdto.setMember_name(request.getParameter("member_name"));
+			mdto.setMember_id(request.getParameter("member_id"));
+			mdto.setMember_pwd(request.getParameter("member_pwd"));
+			mdto.setMember_birth(request.getParameter("member_birth"));
+			mdto.setMember_sex(request.getParameter("member_sex"));
+			
+			mdao = new MemberDAO();
+			switch(mdao.modify_user(mdto)) {
+			case 0:
+				// 비밀번호 오류
+				viewPage = "modify_user_failed.jsp";
+				break;
+			case 1:
+				// 변경 성공
+				viewPage = "wecal_MainView.jsp";
+				break;
+			}
+			break;
+			
+		case "create_meet.do":
+			comm = new CreateMeetWC();
+			comm.execute(request, response);
+			viewPage = "../MainView/wecal_MainView.jsp";
 			break;
 			
 		}
