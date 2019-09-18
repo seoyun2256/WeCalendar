@@ -22,7 +22,7 @@ public class CreateMeetWC implements CommandWC {
 	mdto.setMeet_content(request.getParameter("meet_content"));
 	
 	MeetDAO mdao = new MeetDAO();
-	mdao.create_meet(mdto);
+	mdao.create_meet(mdto, Integer.parseInt(request.getParameter("member_num").toString()));
 	mdao.create_member_meet(Integer.parseInt(request.getParameter("member_num").toString()), mdao.findSeq());
 	
 	}

@@ -62,13 +62,13 @@ public class MeetDAO {
 		return -1;
 	}
 	
-	public void create_meet(MeetDTO mdto) {
+	public void create_meet(MeetDTO mdto, int member_num) {
 		this.mdto = mdto;
 		
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-            String sql = "insert into meetwc(meet_num, meet_name, meet_content) values(meet_seq.nextVal, ?, ?)";
+            String sql = "insert into meetwc(meet_num, meet_name, meet_content, meet_master) values(meet_seq.nextVal, ?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, mdto.getMeet_name());
             if(mdto.getMeet_content().equals("")) {
@@ -77,6 +77,7 @@ public class MeetDAO {
             else {
             	pstmt.setString(2, mdto.getMeet_content());
             }
+            pstmt.setInt(3, member_num);
             pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.RequestWrapper;
 
 import com.wecal.command.CommandWC;
 import com.wecal.command.CreateMeetWC;
@@ -36,13 +35,13 @@ public class WeCalController extends HttpServlet {
 		actionDo(request, response);
 	}
 	
-	private void actionDo(HttpServletRequest request, HttpServletResponse response) {
+	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		CommandWC comm = null;
 		
 		String[] arrUri = request.getRequestURI().split("/");
 		String uri = arrUri[arrUri.length-1];
-		String viewPage = null;
+		RequestDispatcher rd = null;
 		MemberDAO mdao = new MemberDAO();
 		
 //		System.out.println(uri);
@@ -51,7 +50,8 @@ public class WeCalController extends HttpServlet {
 		case "join.do":
 			comm = new JoinWC();
 			comm.execute(request, response);
-			viewPage = "Join/joinSuccess.jsp";
+			rd = request.getRequestDispatcher("Join/joinSuccess.jsp");
+			rd.forward(request, response);
 			break;
 			
 		case "idcheck.do":
@@ -62,7 +62,8 @@ public class WeCalController extends HttpServlet {
 			else {
 				idc = false;
 			}
-			viewPage = "idcheck.jsp?idc="+idc;
+			rd = request.getRequestDispatcher("idcheck.jsp?idc="+idc);
+			rd.forward(request, response);
 			break;
 			
 		case "login.do":
@@ -71,20 +72,27 @@ public class WeCalController extends HttpServlet {
 			case -1:
 				// 아이디 존재하지 않음
 				request.setAttribute("chk", 1);
-				viewPage = "../Login/loginfailed.jsp";
+				rd = request.getRequestDispatcher("../Login/loginfailed.jsp");
+				rd.forward(request, response);
 				break;
 			case -2:
 				// 비밀번호 오류
 				request.setAttribute("chk", 2);
-				viewPage = "../Login/loginfailed.jsp";
+				rd = request.getRequestDispatcher("../Login/loginfailed.jsp");
+				rd.forward(request, response);
 				break;
 			default:
 				// 로그인 성공
-				HttpSession session = request.getSession();
-				session.setAttribute("mnum", mnum);
-				viewPage = "wecal_MainView.jsp";
+				request.getSession().setAttribute("mnum", mnum);
+				response.sendRedirect("wecal_MainView.jsp");
 				break;
 			}
+			break;
+			
+		case "logout.do":
+			request.getSession().invalidate();
+			rd = request.getRequestDispatcher("../Login/logout.jsp");
+			rd.forward(request, response);
 			break;
 			
 		case "modify_user.do":
@@ -105,11 +113,12 @@ public class WeCalController extends HttpServlet {
 			switch(mdao.modify_user(mdto)) {
 			case 0:
 				// 비밀번호 오류
-				viewPage = "modify_user_failed.jsp";
+				rd = request.getRequestDispatcher("modify_user_failed.jsp");
+				rd.forward(request, response);
 				break;
 			case 1:
 				// 변경 성공
-				viewPage = "wecal_MainView.jsp";
+				response.sendRedirect("wecal_MainView.jsp");
 				break;
 			}
 			break;
@@ -117,18 +126,11 @@ public class WeCalController extends HttpServlet {
 		case "create_meet.do":
 			comm = new CreateMeetWC();
 			comm.execute(request, response);
-			viewPage = "../MainView/wecal_MainView.jsp";
+			response.sendRedirect("../MainView/wecal_MainView.jsp");
 			break;
 			
 		}
 		
-        RequestDispatcher rd = request.getRequestDispatcher(viewPage);
-        
-        try {
-			rd.forward(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -32,7 +32,8 @@ function formCheck(){
 				<td><input type="text" id="meet_content" name="meet_content"></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="button" onclick="formCheck()" value="积己窍扁" style="width: 100%;"></td>
+				<td><input type="button" onclick="location.href='../MainView/wecal_MainView.jsp'" value="秒家" style="width: 100%;"></td>
+				<td><input type="button" onclick="formCheck()" value="积己窍扁" style="width: 100%;"></td>
 			</tr>
 		</table>
 	</form>

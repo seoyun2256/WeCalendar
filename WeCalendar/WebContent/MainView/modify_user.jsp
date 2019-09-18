@@ -27,8 +27,14 @@
 	padding: 0px;
 }
 .modify_button {
-	width: 100%;
+	width: 45%;
 	height: 94px;
+	margin-right: 5px;
+}
+.back_button {
+	width: 45%;
+	height: 94px;
+	margin-left: 5px;
 }
 </style>
 </head>
@@ -135,7 +141,9 @@ try {
 			<td><input type="password" id="member_pwd" name="member_pwd"></td>
 		</tr>
 		<tr height="98px">
-			<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="submit" value="회원정보 수정" class="modify_button"/></td>
+			<td colspan="2" class="user_modify" bgcolor="#ffffff">
+				<input type="submit" value="회원정보 수정" class="modify_button"/><input type="button" value="뒤로" class="back_button" onclick="location.href='wecal_MainView.jsp'">
+			</td>
 		</tr>
 	</table>
 </form>

@@ -57,6 +57,7 @@ header {
 	height: 15%;
 }
 .mainT {
+	width: 100%;
 	height: 70%;
 }
 footer {
@@ -102,6 +103,17 @@ a:hover {
 .modify_button {
 	width: 100%;
 	height: 94px;
+}
+
+#logout_btn {
+	float: right;
+	border: 0px;
+	background-color: red;
+	width: 100px;
+	height: 30px;
+	color: white;
+	font-weight: 600;
+	font-size: 12pt;
 }
 </style>
 </head>
@@ -157,7 +169,10 @@ try {
 %>
 <body>
 	<header>
-		<h1>We Calendar</h1>
+		<div>
+			<h1>We Calendar</h1>
+			<input type="button" value="로그아웃" id="logout_btn" name="logout_btn" onclick="javascript:location.href='<c:url value='logout.do'/>'">
+		</div>
 	</header>
 		<table class="mainT">
 			<tr>
@@ -242,7 +257,7 @@ try {
 						</tr>
 					</table>
 					<br>
-					<table border="0" cellspacing="1" cellpadding="1" class="calBody">
+					<table border="0" cellspacing="1" cellpadding="1" class="calBody" width="100%;">
 						<thead>	
 							<tr bgcolor="#cecece">
 								<td width="100px;"><div align="center"><font color="red">일</font></div></td>
@@ -312,9 +327,10 @@ try {
 				try {
 				    Class.forName("oracle.jdbc.driver.OracleDriver");
 				    conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-				    String sql = "select * from meetwc where meet_num in (select meet_num from member_meet where member_num=?)";
+				    String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_num in (select meet_num from member_meet where member_num=?) and member_num=?";
 				    pstmt = conn.prepareStatement(sql);
 				    pstmt.setInt(1, Integer.parseInt(session.getAttribute("mnum").toString()));
+				    pstmt.setInt(2, Integer.parseInt(session.getAttribute("mnum").toString()));
 				    rs = pstmt.executeQuery();
 				    
 				    mtdtos = new ArrayList<MeetDTO>();
@@ -323,6 +339,8 @@ try {
 					    MeetDTO mtdto = new MeetDTO();
 				    	mtdto.setMeet_name(rs.getString("meet_name"));
 				    	mtdto.setMeet_content(rs.getString("meet_content"));
+				    	mtdto.setMeet_master(rs.getInt("meet_master"));
+				    	mtdto.setMaster_name(rs.getString("member_name"));
 				    	mtdtos.add(mtdto);
 				    }
 					
@@ -347,7 +365,7 @@ try {
 					%>
 						<p>
 							<a>
-								<b><%=mtdtos.get(i).getMeet_name() %></b><br><%=mtdtos.get(i).getMeet_content() %>
+								<b><%=mtdtos.get(i).getMeet_name() %></b> - [방장: <%=mtdtos.get(i).getMaster_name() %>]<br><%=mtdtos.get(i).getMeet_content() %>
 							</a>
 						</p>
 						<hr>
