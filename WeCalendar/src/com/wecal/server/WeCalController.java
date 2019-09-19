@@ -14,8 +14,11 @@ import javax.servlet.http.HttpSession;
 import com.wecal.command.CommandWC;
 import com.wecal.command.CreateMeetWC;
 import com.wecal.command.JoinWC;
+import com.wecal.db.MeetDAO;
+import com.wecal.db.MeetDTO;
 import com.wecal.db.MemberDAO;
 import com.wecal.db.MemberDTO;
+import com.wecal.db.PagingVO;
 
 
 @WebServlet("*.do")
@@ -43,6 +46,7 @@ public class WeCalController extends HttpServlet {
 		String uri = arrUri[arrUri.length-1];
 		RequestDispatcher rd = null;
 		MemberDAO mdao = new MemberDAO();
+		MeetDAO mtdao = new MeetDAO();
 		
 //		System.out.println(uri);
 		switch(uri) {
@@ -127,6 +131,16 @@ public class WeCalController extends HttpServlet {
 			comm = new CreateMeetWC();
 			comm.execute(request, response);
 			response.sendRedirect("../MainView/wecal_MainView.jsp");
+			break;
+			
+		case "join_meet.do":
+			mtdao = new MeetDAO();
+			int member_num = Integer.parseInt(request.getSession().getAttribute("mnum").toString());
+			PagingVO pv = mtdao.meet_paging("", Integer.parseInt(request.getParameter("currPage")), member_num);
+			request.getSession().setAttribute("pv", pv);
+			request.getSession().setAttribute("meet", mtdao.select_meet("", member_num));
+			
+			response.sendRedirect("../Meet/join_meet.jsp");
 			break;
 			
 		}

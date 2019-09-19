@@ -375,7 +375,7 @@ try {
 					</div>
 					<div>
 						<p><input type="button" value="모임 생성하기" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='../Meet/create_meet.jsp'/>'"></p>
-						<p><input type="button" value="모임 가입하기" style="width: 100%; height: 30px;"></p>
+						<p><input type="button" value="모임 가입하기" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='join_meet.do'/>?currPage=1'"></p>
 					</div>
 				</td>
 			</tr>

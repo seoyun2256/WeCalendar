@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class MeetDAO {
 	
@@ -52,6 +53,7 @@ public class MeetDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if(rs != null) rs.close();
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			} catch (Exception e) {
@@ -89,6 +91,111 @@ public class MeetDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public ArrayList<MeetDTO> select_meet(String search, int member_num) {
+		
+		ArrayList<MeetDTO> mtdtos = new ArrayList<MeetDTO>();
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_name like '%'||?||'%' and member_num=meet_master and meet_master != ? order by meet_name asc";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, search);
+            pstmt.setInt(2, member_num);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+            	MeetDTO mtdto = new MeetDTO();
+            	mtdto.setMeet_num(rs.getInt("meet_num"));
+            	mtdto.setMeet_name(rs.getString("meet_name"));
+            	mtdto.setMeet_content(rs.getString("meet_content"));
+            	mtdto.setMeet_master(rs.getInt("meet_master"));
+            	mtdto.setMaster_name(rs.getString("member_name"));
+            	mtdtos.add(mtdto);
+            }
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+        
+        return mtdtos;
+		
+	}
+	
+	private int meetCnt(String search, int member_num) {
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "select count(*) from meetwc where meet_name like '%'||?||'%' and meet_master != ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, search);
+            pstmt.setInt(2, member_num);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+            	return rs.getInt(1);
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return 0;
+	}
+	
+	public PagingVO meet_paging(String search, int currPage, int member_num) {
+		
+		// 전체 게시글 수
+		int listCnt = meetCnt(search, member_num);
+		PagingVO pv = new PagingVO();
+		
+		pv.setListCnt(listCnt);//listCnt
+		pv.setPageCnt((int)(Math.ceil((pv.getListCnt()*1.0)/pv.getPageSize())));//pageCnt
+		pv.setRangeCnt((int)(Math.ceil((pv.getPageCnt()*1.0)/pv.getRangeSize())));//rangeCnt
+		
+		System.out.println("전체 갯수: "+pv.getListCnt());
+		System.out.println("전체 페이지: "+pv.getPageCnt());
+		System.out.println("전체 블럭: "+pv.getRangeCnt());
+		System.out.println();
+		
+		pv.setCurrPage(currPage);//currPage;
+		System.out.println("현재페이지: "+pv.getCurrPage());
+		pv.setStartPage(((pv.getCurrPage()-1)/pv.getRangeSize())*pv.getRangeSize()+1);
+		System.out.println("시작페이지: "+pv.getStartPage());
+		pv.setEndPage(pv.getStartPage()+pv.getRangeSize()-1);
+		pv.setCurrRange(pv.getEndPage()/10);
+		System.out.println("현재 블럭: "+pv.getCurrRange());
+		if(pv.getEndPage() > pv.getPageCnt()) {
+			pv.setEndPage(pv.getPageCnt());
+		}
+		System.out.println("끝페이지: "+pv.getEndPage());
+		pv.setStartIndex(((pv.getCurrPage()*pv.getPageSize())-(pv.getPageSize()-1))-1);
+		System.out.println("시작 인덱스: "+pv.getStartIndex());
+		pv.setEndIndex(pv.getCurrPage()*pv.getPageSize()-1);
+		if(pv.getEndIndex() >= pv.getListCnt()) {
+			pv.setEndIndex(pv.getListCnt()-1);
+		}
+		System.out.println("끝 인덱스: "+pv.getEndIndex());
+		System.out.println();
+		
+		return pv;
+		
 	}
 	
 }
