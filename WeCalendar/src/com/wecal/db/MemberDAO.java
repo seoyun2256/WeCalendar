@@ -77,18 +77,18 @@ public class MemberDAO {
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
             if(rs.next()) {
-            	// ¾ÆÀÌµğ Á¸ÀçÇÔ
+            	// ì•„ì´ë”” ì¡´ì¬í•¨
             	if(rs.getString("member_pwd").equals(pwd)) {
-            		// ·Î±×ÀÎ ¼º°ø
+            		// ë¡œê·¸ì¸ ì„±ê³µ
             		return rs.getInt("member_num");
             	}
             	else {
-            		// ºñ¹Ğ¹øÈ£ ¿À·ù
+            		// ë¹„ë°€ë²ˆí˜¸ ì˜¤ë¥˜
             		return -2;
             	}
             }
             
-            // ¾ÆÀÌµğ Á¸ÀçÇÏÁö ¾ÊÀ½
+            // ì•„ì´ë”” ì¡´ì¬í•˜ì§€ ì•ŠìŒ
         	return -1;
         	
 		} catch (Exception e) {

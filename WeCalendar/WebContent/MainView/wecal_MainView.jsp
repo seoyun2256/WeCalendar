@@ -7,8 +7,8 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 Calendar cal = Calendar.getInstance();
@@ -41,7 +41,7 @@ int intToday = Integer.parseInt(sdf.format(todayCal.getTime()));
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>We Calendar</title>
 <style type="text/css">
 html {
@@ -171,37 +171,37 @@ try {
 	<header>
 		<div>
 			<h1>We Calendar</h1>
-			<input type="button" value="·Î±×¾Æ¿ô" id="logout_btn" name="logout_btn" onclick="javascript:location.href='<c:url value='logout.do'/>'">
+			<input type="button" value="ë¡œê·¸ì•„ì›ƒ" id="logout_btn" name="logout_btn" onclick="javascript:location.href='<c:url value='logout.do'/>'">
 		</div>
 	</header>
 		<table class="mainT">
 			<tr>
 				<td width="20%" align="center">
-					<!-- »ç¿ëÀÚ È­¸é -->
+					<!-- ì‚¬ìš©ì í™”ë©´ -->
 					<table border="0" cellspacing="1" cellpadding="1" class="userT">
 						<tr height="30px"></tr>
 						<tr height="60px">
-							<td colspan="2" class="userT_subject"><b>È¸¿ø Á¤º¸</b></td>
+							<td colspan="2" class="userT_subject"><b>íšŒì› ì •ë³´</b></td>
 						</tr>
 						<tr height="20px"></tr>
 						<tr height="100px">
-							<th>ÀÌ¸§</th>
+							<th>ì´ë¦„</th>
 							<td><%=mdto.getMember_name() %></td>
 						</tr>
 						<tr height="100px">
-							<th>¼ºº°</th>
+							<th>ì„±ë³„</th>
 							<td><%=mdto.getMember_sex() %></td>
 						</tr>
 						<tr height="100px">
-							<th>»ıÀÏ</th>
+							<th>ìƒì¼</th>
 							<td><%=birth %></td>
 						</tr>
 						<tr height="100px">
-							<th>°¡ÀÔÀÏ</th>
+							<th>ê°€ì…ì¼</th>
 							<td><%=ddd %></td>
 						</tr>
 						<tr height="98px">
-							<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="button" value="È¸¿øÁ¤º¸ ¼öÁ¤" class="modify_button" onclick="javascript:location.href='<c:url value='modify_user.jsp'/>'" /></td>
+							<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="button" value="íšŒì›ì •ë³´ ìˆ˜ì •" class="modify_button" onclick="javascript:location.href='<c:url value='modify_user.jsp'/>'" /></td>
 						</tr>
 					</table>
 				</td>
@@ -209,7 +209,7 @@ try {
 					<table width="100%" border="0" cellspacing="1" cellpadding="1">
 						<tr>
 							<td align ="right">
-								<input type="button" onclick="javascript:location.href='<c:url value='wecal_MainView.jsp' />'" value="¿À´Ã"/>
+								<input type="button" onclick="javascript:location.href='<c:url value='wecal_MainView.jsp' />'" value="ì˜¤ëŠ˜"/>
 							</td>
 						</tr>
 					</table>
@@ -233,9 +233,9 @@ try {
 								</a>
 								<%} %>
 								&nbsp;&nbsp;
-								<%=year %>³â
+								<%=year %>ë…„
 								
-								<%=month+1 %>¿ù
+								<%=month+1 %>ì›”
 								&nbsp;&nbsp;
 								<%if(month < 11){ %>
 								<a href='<c:url value='wecal_MainView.jsp'/>?year=<%=year%>&month=<%=month+1%>' style="font-size: 16pt;">
@@ -260,13 +260,13 @@ try {
 					<table border="0" cellspacing="1" cellpadding="1" class="calBody" width="100%;">
 						<thead>	
 							<tr bgcolor="#cecece">
-								<td width="100px;"><div align="center"><font color="red">ÀÏ</font></div></td>
-								<td width="100px;"><div align="center">¿ù</div></td>
-								<td width="100px;"><div align="center">È­</div></td>
-								<td width="100px;"><div align="center">¼ö</div></td>
-								<td width="100px;"><div align="center">¸ñ</div></td>
-								<td width="100px;"><div align="center">±İ</div></td>
-								<td width="100px;"><div align="center"><font color="#529dbc">Åä</font></div></td>
+								<td width="100px;"><div align="center"><font color="red">ì¼</font></div></td>
+								<td width="100px;"><div align="center">ì›”</div></td>
+								<td width="100px;"><div align="center">í™”</div></td>
+								<td width="100px;"><div align="center">ìˆ˜</div></td>
+								<td width="100px;"><div align="center">ëª©</div></td>
+								<td width="100px;"><div align="center">ê¸ˆ</div></td>
+								<td width="100px;"><div align="center"><font color="#529dbc">í† </font></div></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -327,10 +327,9 @@ try {
 				try {
 				    Class.forName("oracle.jdbc.driver.OracleDriver");
 				    conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-				    String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_num in (select meet_num from member_meet where member_num=?) and member_num=?";
+				    String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_num in (select meet_num from member_meet where member_num=?) and member_num=meet_master";
 				    pstmt = conn.prepareStatement(sql);
 				    pstmt.setInt(1, Integer.parseInt(session.getAttribute("mnum").toString()));
-				    pstmt.setInt(2, Integer.parseInt(session.getAttribute("mnum").toString()));
 				    rs = pstmt.executeQuery();
 				    
 				    mtdtos = new ArrayList<MeetDTO>();
@@ -357,15 +356,15 @@ try {
 				}
 				%>
 				<td width="20%" style="padding-left: 10px;">
-					<!-- ¸ğÀÓ È­¸é -->
-					<div style="background-color: #bdecb6;"><b>°¡ÀÔÇÑ ¸ğÀÓ</b></div>
+					<!-- ëª¨ì„ í™”ë©´ -->
+					<div style="background-color: #bdecb6;"><b>ê°€ì…í•œ ëª¨ì„</b></div>
 					<div style="overflow: auto; background-color: #f3f9d7; width: 100%; height: 80%;">
 					<%
 					for(int i=0; i<mtdtos.size(); i++){
 					%>
 						<p>
 							<a>
-								<b><%=mtdtos.get(i).getMeet_name() %></b> - [¹æÀå: <%=mtdtos.get(i).getMaster_name() %>]<br><%=mtdtos.get(i).getMeet_content() %>
+								<b><%=mtdtos.get(i).getMeet_name() %></b> - [ë°©ì¥: <%=mtdtos.get(i).getMaster_name() %>]<br><%=mtdtos.get(i).getMeet_content() %>
 							</a>
 						</p>
 						<hr>
@@ -374,8 +373,8 @@ try {
 					%>
 					</div>
 					<div>
-						<p><input type="button" value="¸ğÀÓ »ı¼ºÇÏ±â" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='../Meet/create_meet.jsp'/>'"></p>
-						<p><input type="button" value="¸ğÀÓ °¡ÀÔÇÏ±â" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='join_meet.do'/>?currPage=1'"></p>
+						<p><input type="button" value="ëª¨ì„ ìƒì„±í•˜ê¸°" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='../Meet/create_meet.jsp'/>'"></p>
+						<p><input type="button" value="ëª¨ì„ ê°€ì…í•˜ê¸°" style="width: 100%; height: 30px;" onclick="javascript:location.href='<c:url value='join_meet.do'/>?currPage=1'"></p>
 					</div>
 				</td>
 			</tr>

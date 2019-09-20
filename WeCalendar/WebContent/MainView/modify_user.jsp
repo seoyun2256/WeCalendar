@@ -3,12 +3,12 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
 .userT_subject {
@@ -88,61 +88,61 @@ try {
 	<table border="0" cellspacing="1" cellpadding="1" class="userT">
 		<tr height="30px"></tr>
 		<tr height="60px">
-			<td colspan="2" class="userT_subject"><b>È¸¿ø Á¤º¸</b></td>
+			<td colspan="2" class="userT_subject"><b>íšŒì› ì •ë³´</b></td>
 		</tr>
 		<tr height="20px"></tr>
 		<tr height="100px">
-			<th>ÀÌ¸§</th>
+			<th>ì´ë¦„</th>
 			<td>
 				<input type="hidden" id="member_id" name="member_id" value="<%=mdto.getMember_id() %>">
 				<input type="text" id="member_name" name="member_name" value="<%=mdto.getMember_name() %>">
 			</td>
 		</tr>
 		<tr height="100px">
-			<th>¼ºº°</th>
+			<th>ì„±ë³„</th>
 			<td>
 				<%
-				if(mdto.getMember_sex().equals("³²ÀÚ")){
+				if(mdto.getMember_sex().equals("ë‚¨ìž")){
 					%>
-					<label><input id="member_sex" name="member_sex" type="radio" value="³²ÀÚ" checked="checked">³²ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="¿©ÀÚ">¿©ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="±âÅ¸">±âÅ¸</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ë‚¨ìž" checked="checked">ë‚¨ìž</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ì—¬ìž">ì—¬ìž</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ê¸°íƒ€">ê¸°íƒ€</label>
 					<%
 				}
-				else if(mdto.getMember_sex().equals("¿©ÀÚ")){
+				else if(mdto.getMember_sex().equals("ì—¬ìž")){
 					%>
-					<label><input id="member_sex" name="member_sex" type="radio" value="³²ÀÚ">³²ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="¿©ÀÚ" checked="checked">¿©ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="±âÅ¸">±âÅ¸</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ë‚¨ìž">ë‚¨ìž</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ì—¬ìž" checked="checked">ì—¬ìž</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ê¸°íƒ€">ê¸°íƒ€</label>
 					<%
 				}
 				else{
 					%>
-					<label><input id="member_sex" name="member_sex" type="radio" value="³²ÀÚ">³²ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="¿©ÀÚ">¿©ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="±âÅ¸" checked="checked">±âÅ¸</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ë‚¨ìž">ë‚¨ìž</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ì—¬ìž">ì—¬ìž</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ê¸°íƒ€" checked="checked">ê¸°íƒ€</label>
 					<%
 				}
 				%>
 			</td>
 		</tr>
 		<tr height="100px">
-			<th>»ýÀÏ</th>
+			<th>ìƒì¼</th>
 			<td>
 				<input type="date" id="member_birth" name="member_birth" value="<%=birth %>">
 			</td>
 		</tr>
 		<tr height="100px">
-			<th>°¡ÀÔÀÏ</th>
+			<th>ê°€ìž…ì¼</th>
 			<td><%=ddd %></td>
 		</tr>
 		<tr>
-			<th>ºñ¹Ð¹øÈ£</th>
+			<th>ë¹„ë°€ë²ˆí˜¸</th>
 			<td><input type="password" id="member_pwd" name="member_pwd"></td>
 		</tr>
 		<tr height="98px">
 			<td colspan="2" class="user_modify" bgcolor="#ffffff">
-				<input type="submit" value="È¸¿øÁ¤º¸ ¼öÁ¤" class="modify_button"/><input type="button" value="µÚ·Î" class="back_button" onclick="location.href='wecal_MainView.jsp'">
+				<input type="submit" value="íšŒì›ì •ë³´ ìˆ˜ì •" class="modify_button"/><input type="button" value="ë’¤ë¡œ" class="back_button" onclick="location.href='wecal_MainView.jsp'">
 			</td>
 		</tr>
 	</table>

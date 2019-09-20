@@ -1,7 +1,5 @@
 package com.wecal.db;
 
-import java.sql.Date;
-
 public class MemberDTO {
 	private String member_name;
 	private String member_id;

@@ -1,15 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 function formCheck(){
 	if($('#meet_name').val() == ""){
-		alert("¸ğÀÓ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä!");
+		alert("ëª¨ì„ ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”!");
 		$('#meet_name').focus();
 		return;
 	}
@@ -19,21 +19,21 @@ function formCheck(){
 </script>
 </head>
 <body>
-	<h1>WeCalendar ¸ğÀÓ »ı¼º</h1>
+	<h1>WeCalendar ëª¨ì„ ìƒì„±</h1>
 	<form id="meetform" action="create_meet.do" method="post" onkeydown="javascript:if(event.keyCode==13) return false;">
 		<input type="hidden" id="member_num" name="member_num" value="<%=session.getAttribute("mnum") %>">
 		<table>
 			<tr>
-				<th>¸ğÀÓ ÀÌ¸§</th>
+				<th>ëª¨ì„ ì´ë¦„</th>
 				<td><input type="text" id="meet_name" name="meet_name"></td>
 			</tr>
 			<tr>
-				<th>ÇÑÁÙ ¼Ò°³</th>
+				<th>í•œì¤„ ì†Œê°œ</th>
 				<td><input type="text" id="meet_content" name="meet_content"></td>
 			</tr>
 			<tr>
-				<td><input type="button" onclick="location.href='../MainView/wecal_MainView.jsp'" value="Ãë¼Ò" style="width: 100%;"></td>
-				<td><input type="button" onclick="formCheck()" value="»ı¼ºÇÏ±â" style="width: 100%;"></td>
+				<td><input type="button" onclick="location.href='../MainView/wecal_MainView.jsp'" value="ì·¨ì†Œ" style="width: 100%;"></td>
+				<td><input type="button" onclick="formCheck()" value="ìƒì„±í•˜ê¸°" style="width: 100%;"></td>
 			</tr>
 		</table>
 	</form>

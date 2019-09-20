@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
 table {
@@ -42,37 +42,37 @@ $(function(){
 function formCheck(){
 	
 	if($('#member_name').val() == ""){
-		alert("ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä!");
+		alert("ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”!");
 		$('#member_name').focus();
 		return;
 	}
 	if($('#member_id').val() == ""){
-		alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä!");
+		alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!");
 		$('#member_id').focus();
 		return;
 	}
 	if(email_check){
-		alert("¿Ã¹Ù¸¥ ÀÌ¸ŞÀÏ Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù!");
+		alert("ì˜¬ë°”ë¥¸ ì´ë©”ì¼ í˜•ì‹ì´ ì•„ë‹™ë‹ˆë‹¤!");
 		$('#member_id').focus();
 		return;
 	}
 	if(id_check){
-		alert("¾ÆÀÌµğ Áßº¹°Ë»ç¸¦ ÇØÁÖ¼¼¿ä!");
+		alert("ì•„ì´ë”” ì¤‘ë³µê²€ì‚¬ë¥¼ í•´ì£¼ì„¸ìš”!");
 		$('#member_id').focus();
 		return;
 	}
 	if($('#member_pwd').val() == ""){
-		alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä!");
+		alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!");
 		$('#member_pwd').focus();
 		return;
 	}
 	if(pwd_check){
-		alert("ºñ¹Ğ¹øÈ£ Çü½ÄÀ» ÁöÄÑÁÖ¼¼¿ä!");
+		alert("ë¹„ë°€ë²ˆí˜¸ í˜•ì‹ì„ ì§€ì¼œì£¼ì„¸ìš”!");
 		$('#member_pwd').focus();
 		return;
 	}
 	if(pwd_check2){
-		alert("ºñ¹Ğ¹øÈ£¿Í ºñ¹Ğ¹øÈ£ È®ÀÎ ¶õÀÌ ´Ù¸¨´Ï´Ù!");
+		alert("ë¹„ë°€ë²ˆí˜¸ì™€ ë¹„ë°€ë²ˆí˜¸ í™•ì¸ ë€ì´ ë‹¤ë¦…ë‹ˆë‹¤!");
 		$('#member_pwd_check').focus();
 		return;
 	}
@@ -83,22 +83,22 @@ function formCheck(){
 
 function passwordCheck(password, id){
 	if(/(\w)\1\1\1/.test(password)){
-        $('#pwd_hint').val('°°Àº ¹®ÀÚ¸¦ 4¹ø ÀÌ»ó »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.');
+        $('#pwd_hint').val('ê°™ì€ ë¬¸ìë¥¼ 4ë²ˆ ì´ìƒ ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
         $('#pwd_hint').css('color','red');
         pwd_check = true;
     }
 	else if(!/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/.test(password)){
-        $('#pwd_hint').val('¼ıÀÚ+¿µ¹®ÀÚ+Æ¯¼ö¹®ÀÚ Á¶ÇÕÀ¸·Î 8ÀÚ¸® ÀÌ»ó »ç¿ëÇØ¾ß ÇÕ´Ï´Ù.');
+        $('#pwd_hint').val('ìˆ«ì+ì˜ë¬¸ì+íŠ¹ìˆ˜ë¬¸ì ì¡°í•©ìœ¼ë¡œ 8ìë¦¬ ì´ìƒ ì‚¬ìš©í•´ì•¼ í•©ë‹ˆë‹¤.');
         $('#pwd_hint').css('color','red');
         pwd_check = true;
     }
 	else if(password.search(id) > -1 && id != ""){
-        $('#pwd_hint').val('ºñ¹Ğ¹øÈ£¿¡ ¾ÆÀÌµğ°¡ Æ÷ÇÔµÇ¾ú½À´Ï´Ù.');
+        $('#pwd_hint').val('ë¹„ë°€ë²ˆí˜¸ì— ì•„ì´ë””ê°€ í¬í•¨ë˜ì—ˆìŠµë‹ˆë‹¤.');
         $('#pwd_hint').css('color','red');
         pwd_check = true;
     }
 	else{
-        $('#pwd_hint').val('¿Ã¹Ù¸¥ ºñ¹Ğ¹øÈ£ ÀÔ´Ï´Ù.');
+        $('#pwd_hint').val('ì˜¬ë°”ë¥¸ ë¹„ë°€ë²ˆí˜¸ ì…ë‹ˆë‹¤.');
         $('#pwd_hint').css('color','green');
         pwd_check = false;
 	}
@@ -106,12 +106,12 @@ function passwordCheck(password, id){
 
 function passwordCheck2(password, check){
 	if(password != check){
-        $('#pwd_check_hint').val('ºñ¹Ğ¹øÈ£¿Í ´Ù¸¨´Ï´Ù.');
+        $('#pwd_check_hint').val('ë¹„ë°€ë²ˆí˜¸ì™€ ë‹¤ë¦…ë‹ˆë‹¤.');
         $('#pwd_check_hint').css('color','red');
         pwd_check2 = true;
 	}
 	else{
-        $('#pwd_check_hint').val('ºñ¹Ğ¹øÈ£¿Í ÀÏÄ¡ÇÕ´Ï´Ù.');
+        $('#pwd_check_hint').val('ë¹„ë°€ë²ˆí˜¸ì™€ ì¼ì¹˜í•©ë‹ˆë‹¤.');
         $('#pwd_check_hint').css('color','green');
         pwd_check2 = false;
 	}
@@ -119,12 +119,12 @@ function passwordCheck2(password, check){
 
 function emailCheck(id){
 	if(!/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/i.test(id)){
-        $('#email_hint').val('ÀÌ¸ŞÀÏ Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù.');
+        $('#email_hint').val('ì´ë©”ì¼ í˜•ì‹ì´ ì•„ë‹™ë‹ˆë‹¤.');
         $('#email_hint').css('color','red');
         email_check = true;
 	}
 	else{
-        $('#email_hint').val('¿Ã¹Ù¸¥ ÀÌ¸ŞÀÏ Çü½ÄÀÔ´Ï´Ù.');
+        $('#email_hint').val('ì˜¬ë°”ë¥¸ ì´ë©”ì¼ í˜•ì‹ì…ë‹ˆë‹¤.');
         $('#email_hint').css('color','green');
         email_check = false;
 	}
@@ -132,12 +132,12 @@ function emailCheck(id){
 
 function idCheck(){
 	if($('#member_id').val() == ""){
-		alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä!");
+		alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!");
 		$('#member_id').focus();
 		return;
 	}
 	else if(email_check){
-		alert("¿Ã¹Ù¸¥ ÀÌ¸ŞÀÏ Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù!");
+		alert("ì˜¬ë°”ë¥¸ ì´ë©”ì¼ í˜•ì‹ì´ ì•„ë‹™ë‹ˆë‹¤!");
 		$('#member_id').focus();
 		return;
 	}
@@ -150,11 +150,11 @@ function idCheck(){
 			},
 			success:function(data){
 				if(data == "true"){
-					alert("»ç¿ëÇÒ ¼ö ÀÖ´Â ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+					alert("ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 					id_check = false;
 				}
 				else if(data == "false"){
-					alert("Áßº¹µÇ´Â ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+					alert("ì¤‘ë³µë˜ëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 					id_check = true;
 				}
 			},
@@ -171,51 +171,51 @@ function idCheck(){
 	<form id="joinform" action="../join.do" method="post" onkeydown="javascript:if(event.keyCode==13) return false;">
 		<table>
 			<tr>
-				<th colspan="2" id="subject">È¸¿ø°¡ÀÔ Á¤º¸ÀÔ·Â</th>
+				<th colspan="2" id="subject">íšŒì›ê°€ì… ì •ë³´ì…ë ¥</th>
 			</tr>
 			<tr>
-				<td class="text">ÀÌ¸§</td>
+				<td class="text">ì´ë¦„</td>
 				<td><input type="text" id="member_name" name="member_name"></td>
 			</tr>
 			<tr>
-				<td class="text">¾ÆÀÌµğ</td>
+				<td class="text">ì•„ì´ë””</td>
 				<td>
-					<input type="text" id="member_id" name="member_id"><input type="button" value="Áßº¹È®ÀÎ" onclick="idCheck()">
+					<input type="text" id="member_id" name="member_id"><input type="button" value="ì¤‘ë³µí™•ì¸" onclick="idCheck()">
 					<br>
-					<input type="text" id="email_hint" value="ÀÌ¸ŞÀÏ Çü½ÄÀ¸·Î ¾ÆÀÌµğ¸¦ ÁöÁ¤ÇØ ÁÖ¼¼¿ä." disabled="disabled">
+					<input type="text" id="email_hint" value="ì´ë©”ì¼ í˜•ì‹ìœ¼ë¡œ ì•„ì´ë””ë¥¼ ì§€ì •í•´ ì£¼ì„¸ìš”." disabled="disabled">
 				</td>
 			</tr>
 			<tr>
-				<td class="text">ºñ¹Ğ¹øÈ£</td>
+				<td class="text">ë¹„ë°€ë²ˆí˜¸</td>
 				<td>
 					<input type="password" id="member_pwd" name="member_pwd">
 					<br>
-					<input id="pwd_hint" type="text" value="ºñ¹Ğ¹øÈ£´Â ¿µ¹®, Æ¯¼ö¹®ÀÚ Æ÷ÇÔ ÃÖ¼Ò 8ÀÚ¸® ÀÔ´Ï´Ù." disabled="disabled">
+					<input id="pwd_hint" type="text" value="ë¹„ë°€ë²ˆí˜¸ëŠ” ì˜ë¬¸, íŠ¹ìˆ˜ë¬¸ì í¬í•¨ ìµœì†Œ 8ìë¦¬ ì…ë‹ˆë‹¤." disabled="disabled">
 				</td>
 			</tr>
 			<tr>
-				<td class="text">ºñ¹Ğ¹øÈ£ È®ÀÎ</td>
+				<td class="text">ë¹„ë°€ë²ˆí˜¸ í™•ì¸</td>
 				<td>
 					<input type="password" id="member_pwd_check">
 					<br>
-					<input id="pwd_check_hint" type="text" value="ÀÔ·ÂÇÑ ºñ¹Ğ¹øÈ£¿Í ¶È°°ÀÌ ÀÔ·ÂÇØÁÖ¼¼¿ä." disabled="disabled">
+					<input id="pwd_check_hint" type="text" value="ì…ë ¥í•œ ë¹„ë°€ë²ˆí˜¸ì™€ ë˜‘ê°™ì´ ì…ë ¥í•´ì£¼ì„¸ìš”." disabled="disabled">
 				</td>
 			</tr>
 			<tr>
-				<td class="text">»ı³â¿ùÀÏ</td>
+				<td class="text">ìƒë…„ì›”ì¼</td>
 				<td><input type="date" id="member_birth" name="member_birth"></td>
 			</tr>
 			<tr>
-				<td class="text">¼ºº°</td>
+				<td class="text">ì„±ë³„</td>
 				<td>
-					<label><input id="member_sex" name="member_sex" type="radio" value="³²ÀÚ">³²ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="¿©ÀÚ">¿©ÀÚ</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="±âÅ¸">±âÅ¸</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ë‚¨ì">ë‚¨ì</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ì—¬ì">ì—¬ì</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="ê¸°íƒ€">ê¸°íƒ€</label>
 				</td>
 			</tr>
 			<tr>
-				<td><input type="button" value="Ãë¼Ò" onclick="window.history.back()"></td>
-				<td><input type="button" value="È¸¿ø°¡ÀÔ" onclick="formCheck()"></td>
+				<td><input type="button" value="ì·¨ì†Œ" onclick="window.history.back()"></td>
+				<td><input type="button" value="íšŒì›ê°€ì…" onclick="formCheck()"></td>
 			</tr>
 		</table>
 	</form>

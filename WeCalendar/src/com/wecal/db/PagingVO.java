@@ -2,37 +2,37 @@ package com.wecal.db;
 
 public class PagingVO {
 
-	// ÇÑ ÆäÀÌÁö´ç °Ô½Ã±Û ¼ö
+	// í•œ í˜ì´ì§€ë‹¹ ê²Œì‹œê¸€ ìˆ˜
 	private int pageSize = 5;
 	
-	// ÇÑ ºí·°´ç ÆäÀÌÁö ¼ö
+	// í•œ ë¸”ëŸ­ë‹¹ í˜ì´ì§€ ìˆ˜
 	private int rangeSize = 10;
 	
-	// ÇöÁ¦ ÆäÀÌÁö
+	// í˜„ì œ í˜ì´ì§€
 	private int currPage = 1;
 	
-	// ÇöÀç ºí·°
+	// í˜„ì¬ ë¸”ëŸ­
 	private int currRange = 1;
 	
-	// ÃÑ °Ô½Ã±Û ¼ö
+	// ì´ ê²Œì‹œê¸€ ìˆ˜
 	private int listCnt;
 	
-	// ÃÑ ÆäÀÌÁö ¼ö
+	// ì´ í˜ì´ì§€ ìˆ˜
 	private int pageCnt;
 	
-	// ÃÑ ºí·° ¼ö
+	// ì´ ë¸”ëŸ­ ìˆ˜
 	private int rangeCnt;
 	
-	// ½ÃÀÛÆäÀÌÁö
+	// ì‹œì‘í˜ì´ì§€
 	private int startPage = 1;
 	
-	// ³¡ ÆäÀÌÁö
+	// ë í˜ì´ì§€
 	private int endPage = 1;
 	
-	// ½ÃÀÛ ÀÎµ¦½º
+	// ì‹œì‘ ì¸ë±ìŠ¤
 	private int startIndex = 0;
 	
-	// ³¡ ÀÎµ¦½º
+	// ë ì¸ë±ìŠ¤
 	private int endIndex = 0;
 	
 	private int prevPage;

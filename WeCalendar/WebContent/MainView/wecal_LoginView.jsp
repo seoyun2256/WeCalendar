@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>We Calendar Login</title>
 <style type="text/css">
 html {
@@ -62,19 +62,19 @@ article form table {
 		<form action="login.do" method="post">
 			<table>
 				<tr>
-					<td><b id="id_text">¾Æ ÀÌ µğ</b></td>
+					<td><b id="id_text">ì•„ ì´ ë””</b></td>
 					<td style="padding-left: 10px;"><input type="text" name="user_id" id="user_id"></td>
-					<td rowspan="2" style="padding-left: 10px;"><input type="submit" value="·Î±×ÀÎ" id="login_btn"></td>
+					<td rowspan="2" style="padding-left: 10px;"><input type="submit" value="ë¡œê·¸ì¸" id="login_btn"></td>
 				</tr>
 				<tr>
-					<td><b id="pwd_text">ºñ¹Ğ¹øÈ£</b></td>
+					<td><b id="pwd_text">ë¹„ë°€ë²ˆí˜¸</b></td>
 					<td style="padding-left: 10px;"><input type="password" name="user_pwd" id="user_pwd"></td>
 				</tr>
 			</table>
 		</form>
 	</article>
 	<footer>
-		<h5 align="right"><a href="../Join/join.jsp" id="join">È¸¿ø°¡ÀÔ</a></h5>
+		<h5 align="right"><a href="../Join/join.jsp" id="join">íšŒì›ê°€ì…</a></h5>
 	</footer>
 </body>
 </html>

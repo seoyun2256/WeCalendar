@@ -9,13 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.wecal.command.CommandWC;
 import com.wecal.command.CreateMeetWC;
 import com.wecal.command.JoinWC;
 import com.wecal.db.MeetDAO;
-import com.wecal.db.MeetDTO;
 import com.wecal.db.MemberDAO;
 import com.wecal.db.MemberDTO;
 import com.wecal.db.PagingVO;
@@ -74,19 +72,19 @@ public class WeCalController extends HttpServlet {
 			int mnum = mdao.login(request.getParameter("user_id"), request.getParameter("user_pwd"));
 			switch(mnum) {
 			case -1:
-				// ¾ÆÀÌµğ Á¸ÀçÇÏÁö ¾ÊÀ½
+				// ì•„ì´ë”” ì¡´ì¬í•˜ì§€ ì•ŠìŒ
 				request.setAttribute("chk", 1);
 				rd = request.getRequestDispatcher("../Login/loginfailed.jsp");
 				rd.forward(request, response);
 				break;
 			case -2:
-				// ºñ¹Ğ¹øÈ£ ¿À·ù
+				// ë¹„ë°€ë²ˆí˜¸ ì˜¤ë¥˜
 				request.setAttribute("chk", 2);
 				rd = request.getRequestDispatcher("../Login/loginfailed.jsp");
 				rd.forward(request, response);
 				break;
 			default:
-				// ·Î±×ÀÎ ¼º°ø
+				// ë¡œê·¸ì¸ ì„±ê³µ
 				request.getSession().setAttribute("mnum", mnum);
 				response.sendRedirect("wecal_MainView.jsp");
 				break;
@@ -101,7 +99,7 @@ public class WeCalController extends HttpServlet {
 			
 		case "modify_user.do":
 			try {
-				request.setCharacterEncoding("EUC-KR");
+				request.setCharacterEncoding("UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -116,12 +114,12 @@ public class WeCalController extends HttpServlet {
 			mdao = new MemberDAO();
 			switch(mdao.modify_user(mdto)) {
 			case 0:
-				// ºñ¹Ğ¹øÈ£ ¿À·ù
+				// ë¹„ë°€ë²ˆí˜¸ ì˜¤ë¥˜
 				rd = request.getRequestDispatcher("modify_user_failed.jsp");
 				rd.forward(request, response);
 				break;
 			case 1:
-				// º¯°æ ¼º°ø
+				// ë³€ê²½ ì„±ê³µ
 				response.sendRedirect("wecal_MainView.jsp");
 				break;
 			}
@@ -135,10 +133,14 @@ public class WeCalController extends HttpServlet {
 			
 		case "join_meet.do":
 			mtdao = new MeetDAO();
+			request.setCharacterEncoding("UTF-8");
+			System.out.println("search: "+request.getParameter("search"));
+
 			int member_num = Integer.parseInt(request.getSession().getAttribute("mnum").toString());
-			PagingVO pv = mtdao.meet_paging("", Integer.parseInt(request.getParameter("currPage")), member_num);
+			PagingVO pv = mtdao.meet_paging(request.getParameter("search"), Integer.parseInt(request.getParameter("currPage")), member_num);
 			request.getSession().setAttribute("pv", pv);
-			request.getSession().setAttribute("meet", mtdao.select_meet("", member_num));
+			request.getSession().setAttribute("meet", mtdao.select_meet(request.getParameter("search"), member_num));
+			request.getSession().setAttribute("search", request.getParameter("search"));
 			
 			response.sendRedirect("../Meet/join_meet.jsp");
 			break;

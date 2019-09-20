@@ -14,7 +14,7 @@ public class JoinWC implements CommandWC {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			request.setCharacterEncoding("EUC-KR");
+			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

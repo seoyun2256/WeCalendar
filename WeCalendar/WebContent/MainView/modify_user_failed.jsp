@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	alert("ºñ¹Ð¹øÈ£°¡ ´Þ¶ó È¸¿ø Á¤º¸¸¦ ¼öÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+	alert("ë¹„ë°€ë²ˆí˜¸ê°€ ë‹¬ë¼ íšŒì› ì •ë³´ë¥¼ ìˆ˜ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	window.location.replace('../MainView/modify_user.jsp');
 })
 </script>

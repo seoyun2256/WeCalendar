@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	alert("х╦©Ь╟║ют©║ ╪╨╟Ьго©╢╫ю╢о╢ы.");
+	alert("М ▄Л⌡░Й╟─Л·┘Л≈░ Л└╠ЙЁ╣М∙≤Л≤─Л┼╣К▀┬К▀╓.");
 	window.location.replace('../WeCalendar/MainView/wecal_LoginView.jsp');
 })
 </script>

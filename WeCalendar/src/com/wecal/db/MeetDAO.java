@@ -74,7 +74,7 @@ public class MeetDAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, mdto.getMeet_name());
             if(mdto.getMeet_content().equals("")) {
-            	pstmt.setString(2, "ÇÑÁÙ ¼Ò°³°¡ ¾ø½À´Ï´Ù.");
+            	pstmt.setString(2, "í•œì¤„ ì†Œê°œê°€ ì—†ìŠµë‹ˆë‹¤.");
             }
             else {
             	pstmt.setString(2, mdto.getMeet_content());
@@ -100,10 +100,10 @@ public class MeetDAO {
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-            String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_name like '%'||?||'%' and member_num=meet_master and meet_master != ? order by meet_name asc";
+            String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_num not in (select meet_num from member_meet where member_num=?) and member_num=meet_master and meet_name like '%'||?||'%'";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, search);
-            pstmt.setInt(2, member_num);
+            pstmt.setInt(1, member_num);
+            pstmt.setString(2, search);
             rs = pstmt.executeQuery();
             while(rs.next()) {
             	MeetDTO mtdto = new MeetDTO();
@@ -136,10 +136,10 @@ public class MeetDAO {
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-            String sql = "select count(*) from meetwc where meet_name like '%'||?||'%' and meet_master != ?";
+            String sql = "select count(*) from meetwc where meet_num not in (select meet_num from member_meet where member_num=?) and meet_name like '%'||?||'%'";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, search);
-            pstmt.setInt(2, member_num);
+            pstmt.setInt(1, member_num);
+            pstmt.setString(2, search);
             rs = pstmt.executeQuery();
             while(rs.next()) {
             	return rs.getInt(1);
@@ -161,7 +161,7 @@ public class MeetDAO {
 	
 	public PagingVO meet_paging(String search, int currPage, int member_num) {
 		
-		// ÀüÃ¼ °Ô½Ã±Û ¼ö
+		// ì „ì²´ ê²Œì‹œê¸€ ìˆ˜
 		int listCnt = meetCnt(search, member_num);
 		PagingVO pv = new PagingVO();
 		
@@ -169,29 +169,29 @@ public class MeetDAO {
 		pv.setPageCnt((int)(Math.ceil((pv.getListCnt()*1.0)/pv.getPageSize())));//pageCnt
 		pv.setRangeCnt((int)(Math.ceil((pv.getPageCnt()*1.0)/pv.getRangeSize())));//rangeCnt
 		
-		System.out.println("ÀüÃ¼ °¹¼ö: "+pv.getListCnt());
-		System.out.println("ÀüÃ¼ ÆäÀÌÁö: "+pv.getPageCnt());
-		System.out.println("ÀüÃ¼ ºí·°: "+pv.getRangeCnt());
+		System.out.println("ì „ì²´ ê°¯ìˆ˜: "+pv.getListCnt());
+		System.out.println("ì „ì²´ í˜ì´ì§€: "+pv.getPageCnt());
+		System.out.println("ì „ì²´ ë¸”ëŸ­: "+pv.getRangeCnt());
 		System.out.println();
 		
 		pv.setCurrPage(currPage);//currPage;
-		System.out.println("ÇöÀçÆäÀÌÁö: "+pv.getCurrPage());
+		System.out.println("í˜„ì¬í˜ì´ì§€: "+pv.getCurrPage());
 		pv.setStartPage(((pv.getCurrPage()-1)/pv.getRangeSize())*pv.getRangeSize()+1);
-		System.out.println("½ÃÀÛÆäÀÌÁö: "+pv.getStartPage());
+		System.out.println("ì‹œì‘í˜ì´ì§€: "+pv.getStartPage());
 		pv.setEndPage(pv.getStartPage()+pv.getRangeSize()-1);
 		pv.setCurrRange(pv.getEndPage()/10);
-		System.out.println("ÇöÀç ºí·°: "+pv.getCurrRange());
+		System.out.println("í˜„ì¬ ë¸”ëŸ­: "+pv.getCurrRange());
 		if(pv.getEndPage() > pv.getPageCnt()) {
 			pv.setEndPage(pv.getPageCnt());
 		}
-		System.out.println("³¡ÆäÀÌÁö: "+pv.getEndPage());
+		System.out.println("ëí˜ì´ì§€: "+pv.getEndPage());
 		pv.setStartIndex(((pv.getCurrPage()*pv.getPageSize())-(pv.getPageSize()-1))-1);
-		System.out.println("½ÃÀÛ ÀÎµ¦½º: "+pv.getStartIndex());
+		System.out.println("ì‹œì‘ ì¸ë±ìŠ¤: "+pv.getStartIndex());
 		pv.setEndIndex(pv.getCurrPage()*pv.getPageSize()-1);
 		if(pv.getEndIndex() >= pv.getListCnt()) {
 			pv.setEndIndex(pv.getListCnt()-1);
 		}
-		System.out.println("³¡ ÀÎµ¦½º: "+pv.getEndIndex());
+		System.out.println("ë ì¸ë±ìŠ¤: "+pv.getEndIndex());
 		System.out.println();
 		
 		return pv;
