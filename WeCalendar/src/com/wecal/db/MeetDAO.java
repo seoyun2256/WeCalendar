@@ -14,6 +14,7 @@ public class MeetDAO {
 	Statement stmt = null;
 	ResultSet rs = null;
 	MeetDTO mdto = null;
+	Member_MeetDTO mmdto = null;
 	
 	public void create_member_meet(int member_num, int meet_num) {
 		
@@ -157,6 +158,29 @@ public class MeetDAO {
 		}
 		
 		return 0;
+	}
+	
+	public void join_meet(Member_MeetDTO mmdto) {
+		this.mmdto = mmdto;
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "insert into member_meet(member_num, meet_num) values(?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, mmdto.getMember_num());
+            pstmt.setInt(2, mmdto.getMeet_num());
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public PagingVO meet_paging(String search, int currPage, int member_num) {

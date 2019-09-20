@@ -336,6 +336,7 @@ try {
 				    
 				    while(rs.next()){
 					    MeetDTO mtdto = new MeetDTO();
+					    mtdto.setMeet_num(rs.getInt("meet_num"));
 				    	mtdto.setMeet_name(rs.getString("meet_name"));
 				    	mtdto.setMeet_content(rs.getString("meet_content"));
 				    	mtdto.setMeet_master(rs.getInt("meet_master"));
@@ -363,7 +364,7 @@ try {
 					for(int i=0; i<mtdtos.size(); i++){
 					%>
 						<p>
-							<a>
+							<a href="<c:url value='../Meet/meetView.jsp'/>?meet_num=<%=mtdtos.get(i).getMeet_num() %>&meet_master=<%=mtdtos.get(i).getMeet_master() %>">
 								<b><%=mtdtos.get(i).getMeet_name() %></b> - [방장: <%=mtdtos.get(i).getMaster_name() %>]<br><%=mtdtos.get(i).getMeet_content() %>
 							</a>
 						</p>
