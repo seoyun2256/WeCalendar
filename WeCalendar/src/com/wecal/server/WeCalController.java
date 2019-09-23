@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.wecal.command.CommandWC;
 import com.wecal.command.CreateMeetWC;
+import com.wecal.command.CreateScheduleWC;
 import com.wecal.command.JoinMeetWC;
 import com.wecal.command.JoinWC;
 import com.wecal.db.MeetDAO;
 import com.wecal.db.MemberDAO;
 import com.wecal.db.MemberDTO;
 import com.wecal.db.PagingVO;
+import com.wecal.db.ScheduleDAO;
+import com.wecal.db.ScheduleDTO;
 
 
 @WebServlet("*.do")
@@ -46,6 +49,7 @@ public class WeCalController extends HttpServlet {
 		RequestDispatcher rd = null;
 		MemberDAO mdao = new MemberDAO();
 		MeetDAO mtdao = new MeetDAO();
+		ScheduleDAO sdao = new ScheduleDAO();
 		
 //		System.out.println(uri);
 		switch(uri) {
@@ -112,7 +116,6 @@ public class WeCalController extends HttpServlet {
 			mdto.setMember_birth(request.getParameter("member_birth"));
 			mdto.setMember_sex(request.getParameter("member_sex"));
 			
-			mdao = new MemberDAO();
 			switch(mdao.modify_user(mdto)) {
 			case 0:
 				// 비밀번호 오류
@@ -133,7 +136,6 @@ public class WeCalController extends HttpServlet {
 			break;
 			
 		case "join_meet.do":
-			mtdao = new MeetDAO();
 			request.setCharacterEncoding("UTF-8");
 
 			int member_num = Integer.parseInt(request.getSession().getAttribute("mnum").toString());
@@ -150,6 +152,19 @@ public class WeCalController extends HttpServlet {
 			comm.execute(request, response);
 			rd = request.getRequestDispatcher("join_meet.do?currPage=1");
 			rd.forward(request, response);
+			break;
+			
+		case "meet_view.do":
+			int meet_num = Integer.parseInt(request.getParameter("meet_num").toString());
+			request.getSession().setAttribute("schedule", sdao.meet_schedule(meet_num));
+			request.getSession().setAttribute("meet", mtdao.oneMeet(meet_num));
+			response.sendRedirect("../Meet/meetView.jsp");
+			break;
+			
+		case "create_schedule.do":
+			comm = new CreateScheduleWC();
+			comm.execute(request, response);
+			response.sendRedirect("../Meet/meetView.jsp");
 			break;
 			
 		}

@@ -1,13 +1,220 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+Calendar cal = Calendar.getInstance();
+
+String strYear = request.getParameter("year");
+String strMonth = request.getParameter("month");
+
+int year = cal.get(Calendar.YEAR);
+int month = cal.get(Calendar.MONTH);
+int date = cal.get(Calendar.DATE);
+
+if(strYear != null){
+	year = Integer.parseInt(strYear);
+}
+if(strMonth != null){
+	month = Integer.parseInt(strMonth);
+}
+
+cal.set(year, month, 1);
+
+int startDay = cal.getMinimum(Calendar.DATE);
+int endDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+int start = cal.get(Calendar.DAY_OF_WEEK);
+int newLine = 0;
+
+Calendar todayCal = Calendar.getInstance();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+int intToday = Integer.parseInt(sdf.format(todayCal.getTime()));
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>모임 일정</title>
+<style type="text/css">
+html {
+	width: 100%;
+	height: 100%;
+}
+body {
+	width: 95%;
+	height: 90%;
+	padding: 5px 5px 5px 5px;
+}
+.calHead {
+	width: 100%;
+	border: 1px solid #ced99c;
+	background-color: #f3f9d7;
+}
+.calBody {
+	background-color: #ffffff;
+}
+
+a:link { 
+	color:#000000; text-decoration:none;
+}
+a:visited {
+	color:#000000; text-decoration:none;
+}
+a:active {
+	color:red; text-decoration:none;
+}
+a:hover {
+	color:red;text-decoration:none;
+}
+</style>
+<script type="text/javascript">
+function noMaster(){
+	alert("방장이 아니라서 일정을 생성할 수 없습니다!");
+}
+</script>
 </head>
 <body>
-<%=request.getParameter("meet_num") %><br>
-<%=request.getParameter("meet_master") %>
+	<table>
+		<tr>
+			<td><!-- 제목 -->
+				<h1>${meet.meet_name }</h1>
+				<h5>방장: ${meet.master_name }</h5>
+			</td>
+			<td rowspan="3">
+			</td>
+		</tr>
+		<tr>
+			<td><!-- 달력 -->
+				<table width="100%" border="0" cellspacing="1" cellpadding="1">
+					<tr>
+						<td align ="right">
+							<input type="button" onclick="javascript:location.href='<c:url value='meetView.jsp' />'" value="오늘"/>
+						</td>
+					</tr>
+				</table>
+				<table class="calHead" cellspacing="1" cellpadding="1">
+					<tr>
+						<td height="10">
+						</td>
+					</tr>
+					<tr>
+						<td align="center">
+							<a href='<c:url value='meetView.jsp'/>?year=<%=year-1%>&month=<%=month%>' style="font-size: 16pt;">
+								<b>&lt;&lt;</b>
+							</a>
+							<%if(month > 0){ %>
+							<a href='<c:url value='meetView.jsp'/>?year=<%=year%>&month=<%=month-1%>' style="font-size: 16pt;">
+								<b>&lt;</b>
+							</a>
+							<%} else {%>
+							<a href='<c:url value='meetView.jsp'/>?year=<%=year-1%>&month=11' style="font-size: 16pt;">
+								<b>&lt;</b>
+							</a>
+							<%} %>
+							&nbsp;&nbsp;
+							<%=year %>년
+							
+							<%=month+1 %>월
+							&nbsp;&nbsp;
+							<%if(month < 11){ %>
+							<a href='<c:url value='meetView.jsp'/>?year=<%=year%>&month=<%=month+1%>' style="font-size: 16pt;">
+								<b>&gt;</b>
+							</a>
+							<%} else { %>
+							<a href='<c:url value='meetView.jsp'/>?year=<%=year+1%>&month=0' style="font-size: 16pt;">
+								<b>&gt;</b>
+							</a>
+							<%} %>
+							<a href='<c:url value='meetView.jsp'/>?year=<%=year+1%>&month=<%=month%>' style="font-size: 16pt;">
+								<b>&gt;&gt;</b>
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td height="10">
+						</td>
+					</tr>
+				</table>
+				<br>
+				<table border="0" cellspacing="1" cellpadding="1" class="calBody" width="100%;">
+					<thead>	
+						<tr bgcolor="#cecece">
+							<td width="100px;"><div align="center"><font color="red">일</font></div></td>
+							<td width="100px;"><div align="center">월</div></td>
+							<td width="100px;"><div align="center">화</div></td>
+							<td width="100px;"><div align="center">수</div></td>
+							<td width="100px;"><div align="center">목</div></td>
+							<td width="100px;"><div align="center">금</div></td>
+							<td width="100px;"><div align="center"><font color="#529dbc">토</font></div></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+						<%
+						for(int i=1; i<start; i++){
+						%>
+							<td>&nbsp;</td>
+						<%
+							newLine++;
+						}
+						
+						for(int i=1; i<=endDay; i++){
+							String color = "";
+							
+							if(newLine == 0){
+								color="RED";
+							}
+							else if(newLine == 6){
+								color="529dbc";
+							}
+							else{
+								color="BLACK";
+							}
+							
+							%>
+							<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+								<font color="<%=color%>"><%=i %></font>
+							</td>
+							<%
+							newLine++;
+							
+							if(newLine == 7){
+								%>
+								</tr>
+								<%
+								if(i <= endDay){
+									%>
+									<tr>
+									<%
+								}
+								newLine = 0;
+							}
+						}
+						
+						while(newLine > 0 && newLine < 7){
+							%>
+							<td>&nbsp;</td>
+							<%
+							newLine++;
+						}
+						%>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="button" value="뒤로가기" onclick="location.href='../MainView/wecal_MainView.jsp'">
+				<c:if test="${mnum == meet.meet_master }">
+					<input type="button" value="일정 생성하기" onclick="location.href='../Schedule/create_schedule.jsp?meet_name=${meet.meet_name}&meet_num=${meet.meet_num}'">
+				</c:if>
+				<c:if test="${mnum != meet.meet_master }">
+					<input type="button" value="일정 생성하기" onclick="noMaster()">
+				</c:if>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

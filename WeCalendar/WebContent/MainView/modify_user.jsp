@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원정보 수정</title>
 <style type="text/css">
 .userT_subject {
 	border: 1px solid #ced99c;
@@ -66,11 +66,6 @@ try {
     	mdto.setMember_date(rs.getString("member_date"));
     	mdto.setMember_id(rs.getString("member_id"));
     }
-
-    births = mdto.getMember_birth().split(" ");
-    birth = births[0];
-    ddds = mdto.getMember_date().split(" ");
-    ddd = ddds[0];
 	
 } catch (Exception e) {
 	e.printStackTrace();
@@ -129,12 +124,12 @@ try {
 		<tr height="100px">
 			<th>생일</th>
 			<td>
-				<input type="date" id="member_birth" name="member_birth" value="<%=birth %>">
+				<input type="date" id="member_birth" name="member_birth" value="<%=mdto.getMember_birth() %>">
 			</td>
 		</tr>
 		<tr height="100px">
 			<th>가입일</th>
-			<td><%=ddd %></td>
+			<td><%=mdto.getMember_date() %></td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>

@@ -18,7 +18,7 @@ public class MemberDAO {
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
-            String sql = "insert into memberwc(member_num, member_name, member_id, member_pwd, member_date, member_birth, member_sex) values(member_seq.nextVal, ?, ?, ?, sysdate, ?, ?)";
+            String sql = "insert into memberwc(member_num, member_name, member_id, member_pwd, member_date, member_birth, member_sex) values(member_seq.nextVal, ?, ?, ?, to_char(sysdate, 'YYYY-MM-DD'), ?, ?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, mdto.getMember_name());
             pstmt.setString(2, mdto.getMember_id());

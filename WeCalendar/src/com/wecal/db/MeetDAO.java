@@ -39,6 +39,39 @@ public class MeetDAO {
 		
 	}
 	
+	public MeetDTO oneMeet(int meet_num) {
+		
+		MeetDTO mtdto = new MeetDTO();
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "select m.member_name, t.* from memberwc m, meetwc t where meet_num=? and meet_master=member_num";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, meet_num);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+            	mtdto.setMeet_num(rs.getInt("meet_num"));
+            	mtdto.setMeet_name(rs.getString("meet_name"));
+            	mtdto.setMeet_content(rs.getString("meet_content"));
+            	mtdto.setMeet_master(rs.getInt("meet_master"));
+            	mtdto.setMaster_name(rs.getString("member_name"));
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return mtdto;
+	}
+	
 	public int findSeq() {
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");

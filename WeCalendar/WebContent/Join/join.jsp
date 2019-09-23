@@ -76,6 +76,14 @@ function formCheck(){
 		$('#member_pwd_check').focus();
 		return;
 	}
+	if($('#member_pwd').val() != $('#member_pwd_check').val()){
+		alert("비밀번호와 비밀번호 확인 란이 다릅니다!");
+        $('#pwd_check_hint').val('비밀번호와 다릅니다.');
+        $('#pwd_check_hint').css('color','red');
+        pwd_check2 = true;
+		$('#member_pwd_check').focus();
+		return;
+	}
 	
 	$('#joinform').submit();
 	

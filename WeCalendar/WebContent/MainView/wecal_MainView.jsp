@@ -148,11 +148,6 @@ try {
     	mdto.setMember_date(rs.getString("member_date"));
     	mdto.setMember_id(rs.getString("member_id"));
     }
-
-    births = mdto.getMember_birth().split(" ");
-    birth = births[0];
-    ddds = mdto.getMember_date().split(" ");
-    ddd = ddds[0];
 	
 } catch (Exception e) {
 	e.printStackTrace();
@@ -194,11 +189,11 @@ try {
 						</tr>
 						<tr height="100px">
 							<th>생일</th>
-							<td><%=birth %></td>
+							<td><%=mdto.getMember_birth() %></td>
 						</tr>
 						<tr height="100px">
 							<th>가입일</th>
-							<td><%=ddd %></td>
+							<td><%=mdto.getMember_date() %></td>
 						</tr>
 						<tr height="98px">
 							<td colspan="2" class="user_modify" bgcolor="#ffffff"><input type="button" value="회원정보 수정" class="modify_button" onclick="javascript:location.href='<c:url value='modify_user.jsp'/>'" /></td>
@@ -364,7 +359,7 @@ try {
 					for(int i=0; i<mtdtos.size(); i++){
 					%>
 						<p>
-							<a href="<c:url value='../Meet/meetView.jsp'/>?meet_num=<%=mtdtos.get(i).getMeet_num() %>&meet_master=<%=mtdtos.get(i).getMeet_master() %>">
+							<a href="<c:url value='meet_view.do'/>?meet_num=<%=mtdtos.get(i).getMeet_num() %>">
 								<b><%=mtdtos.get(i).getMeet_name() %></b> - [방장: <%=mtdtos.get(i).getMaster_name() %>]<br><%=mtdtos.get(i).getMeet_content() %>
 							</a>
 						</p>
