@@ -58,6 +58,10 @@ body {
 	height: 90%;
 	padding: 5px 5px 5px 5px;
 }
+.mainT {
+	width: 100%;
+	height: 70%;
+}
 .calHead {
 	width: 100%;
 	border: 1px solid #ced99c;
@@ -79,6 +83,12 @@ a:active {
 a:hover {
 	color:red;text-decoration:none;
 }
+
+#schedule_frame {
+	border: 1px solid;
+	width: 100%;
+	height: 100%;
+}
 </style>
 <script type="text/javascript">
 function noMaster(){
@@ -87,13 +97,11 @@ function noMaster(){
 </script>
 </head>
 <body>
-	<table>
+	<table class="mainT">
 		<tr>
-			<td><!-- 제목 -->
+			<td colspan="2"><!-- 제목 -->
 				<h1>${meet.meet_name }</h1>
 				<h5>방장: ${meet.master_name }</h5>
-			</td>
-			<td rowspan="3">
 			</td>
 		</tr>
 		<tr>
@@ -185,7 +193,19 @@ function noMaster(){
 							}
 							
 							%>
-							<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+							<%
+							Calendar today = Calendar.getInstance();
+							if(today.get(Calendar.YEAR) == year && today.get(Calendar.MONTH) == month && today.get(Calendar.DAY_OF_MONTH) == i){
+							%>
+								<td valign="top" align="left" height="92px" bgcolor="#ff0000" nowrap="nowrap">
+							<%
+							}
+							else{
+							%>
+								<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+							<%
+							}
+							%>
 								<div style="height: 100%; overflow: auto;">
 								<font color="<%=color%>"><%=i %></font>
 								<c:if test="${schedule.size() != 0}">
@@ -200,7 +220,7 @@ function noMaster(){
 										
 										if(!toDay.isBefore(sDay) && toDay.isBefore(eDay.plusDays(1))){
 										%>
-										<div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div>
+										<a href="../Schedule/scheduleView.jsp?schedule_num=<%=sdtos.get(j).getSchedule_num() %>" target="schedule_frame"><div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div></a>
 										<%
 										}
 									}
@@ -235,9 +255,13 @@ function noMaster(){
 					</tbody>
 				</table>
 			</td>
+			<td rowspan="2">
+				<iframe id="schedule_frame" name="schedule_frame">
+				</iframe>
+			</td>
 		</tr>
 		<tr>
-			<td>
+			<td align="right">
 				<input type="button" value="뒤로가기" onclick="location.href='../MainView/wecal_MainView.jsp'">
 				<c:if test="${mnum == meet.meet_master }">
 					<input type="button" value="일정 생성하기" onclick="location.href='../Schedule/create_schedule.jsp?meet_name=${meet.meet_name}&meet_num=${meet.meet_num}'">

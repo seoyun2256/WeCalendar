@@ -298,7 +298,19 @@ try {
 								}
 								
 								%>
-								<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+								<%
+								Calendar today = Calendar.getInstance();
+								if(today.get(Calendar.YEAR) == year && today.get(Calendar.MONTH) == month && today.get(Calendar.DAY_OF_MONTH) == i){
+								%>
+									<td valign="top" align="left" height="92px" bgcolor="#ff0000" nowrap="nowrap">
+								<%
+								}
+								else{
+								%>
+									<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+								<%
+								}
+								%>
 									<div style="height: 100%; overflow: auto;">
 									<font color="<%=color%>"><%=i %></font>
 									<c:if test="${schedule.size() != 0}">

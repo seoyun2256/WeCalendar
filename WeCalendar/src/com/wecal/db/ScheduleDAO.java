@@ -76,7 +76,7 @@ public class ScheduleDAO {
 	
 	public ArrayList<ScheduleDTO> member_schedule(int member_num){
 		
-ArrayList<ScheduleDTO> sdtos = new ArrayList<ScheduleDTO>();
+		ArrayList<ScheduleDTO> sdtos = new ArrayList<ScheduleDTO>();
 		
 		try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -108,6 +108,39 @@ ArrayList<ScheduleDTO> sdtos = new ArrayList<ScheduleDTO>();
 		}
 		
 		return sdtos;
+	}
+	
+	public ScheduleDTO oneSchedule(int schedule_num) {
+		ScheduleDTO sdto = new ScheduleDTO();
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "select * from schedulewc where schedule_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, schedule_num);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+            	sdto.setSchedule_num(rs.getInt("schedule_num"));
+            	sdto.setSchedule_name(rs.getString("schedule_name"));
+            	sdto.setSchedule_content(rs.getString("schedule_content"));
+            	sdto.setSchedule_startDay(rs.getString("schedule_startDay"));
+            	sdto.setSchedule_endDay(rs.getString("schedule_endDay"));
+            	sdto.setMeet_num(rs.getInt("meet_num"));
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return sdto;
 	}
 	
 }
