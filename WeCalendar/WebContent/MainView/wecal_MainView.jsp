@@ -1,3 +1,5 @@
+<%@page import="java.time.LocalDate"%>
+<%@page import="com.wecal.db.ScheduleDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.wecal.db.MeetDTO"%>
 <%@page import="com.wecal.db.MemberDTO"%>
@@ -19,6 +21,14 @@ String strMonth = request.getParameter("month");
 int year = cal.get(Calendar.YEAR);
 int month = cal.get(Calendar.MONTH);
 int date = cal.get(Calendar.DATE);
+
+int[] colors;
+
+ArrayList<ScheduleDTO> sdtos = (ArrayList<ScheduleDTO>)session.getAttribute("schedule");
+colors = new int[sdtos.size()+2];
+for(int c=0; c<colors.length; c++){
+	colors[c] = (int)(Math.floor(Math.random()*(255-0+1))+0);
+}
 
 if(strYear != null){
 	year = Integer.parseInt(strYear);
@@ -289,7 +299,27 @@ try {
 								
 								%>
 								<td valign="top" align="left" height="92px" bgcolor="#efefef" nowrap="nowrap">
+									<div style="height: 100%; overflow: auto;">
 									<font color="<%=color%>"><%=i %></font>
+									<c:if test="${schedule.size() != 0}">
+										<%
+										for(int j=0; j<sdtos.size(); j++){
+											String MM = (month+1 < 10)? "0"+(month+1):String.valueOf(month+1);
+											String DD = (i < 10)? "0"+i:String.valueOf(i);
+											
+											LocalDate toDay = LocalDate.parse(year+"-"+MM+"-"+DD);
+											LocalDate sDay = LocalDate.parse(sdtos.get(j).getSchedule_startDay());
+											LocalDate eDay = LocalDate.parse(sdtos.get(j).getSchedule_endDay());
+											
+											if(!toDay.isBefore(sDay) && toDay.isBefore(eDay.plusDays(1))){
+											%>
+											<div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div>
+											<%
+											}
+										}
+										%>
+									</c:if>
+									</div>
 								</td>
 								<%
 								newLine++;

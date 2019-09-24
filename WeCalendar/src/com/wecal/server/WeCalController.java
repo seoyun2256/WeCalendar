@@ -91,6 +91,7 @@ public class WeCalController extends HttpServlet {
 			default:
 				// 로그인 성공
 				request.getSession().setAttribute("mnum", mnum);
+				request.getSession().setAttribute("schedule", sdao.member_schedule(mnum));
 				response.sendRedirect("wecal_MainView.jsp");
 				break;
 			}
@@ -164,7 +165,7 @@ public class WeCalController extends HttpServlet {
 		case "create_schedule.do":
 			comm = new CreateScheduleWC();
 			comm.execute(request, response);
-			response.sendRedirect("../Meet/meetView.jsp");
+			response.sendRedirect("meet_view.do?meet_num="+request.getParameter("meet_num"));
 			break;
 			
 		}
