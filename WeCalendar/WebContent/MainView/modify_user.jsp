@@ -97,25 +97,34 @@ try {
 			<th>성별</th>
 			<td>
 				<%
-				if(mdto.getMember_sex().equals("남자")){
-					%>
-					<label><input id="member_sex" name="member_sex" type="radio" value="남자" checked="checked">남자</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
-					<%
-				}
-				else if(mdto.getMember_sex().equals("여자")){
-					%>
-					<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="여자" checked="checked">여자</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
-					<%
+				if(mdto.getMember_sex() != null){
+					if(mdto.getMember_sex().equals("남자")){
+						%>
+						<label><input id="member_sex" name="member_sex" type="radio" value="남자" checked="checked">남자</label>
+						<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
+						<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
+						<%
+					}
+					else if(mdto.getMember_sex().equals("여자")){
+						%>
+						<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
+						<label><input id="member_sex" name="member_sex" type="radio" value="여자" checked="checked">여자</label>
+						<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
+						<%
+					}
+					else{
+						%>
+						<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
+						<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
+						<label><input id="member_sex" name="member_sex" type="radio" value="기타" checked="checked">기타</label>
+						<%
+					}
 				}
 				else{
 					%>
 					<label><input id="member_sex" name="member_sex" type="radio" value="남자">남자</label>
 					<label><input id="member_sex" name="member_sex" type="radio" value="여자">여자</label>
-					<label><input id="member_sex" name="member_sex" type="radio" value="기타" checked="checked">기타</label>
+					<label><input id="member_sex" name="member_sex" type="radio" value="기타">기타</label>
 					<%
 				}
 				%>
@@ -124,7 +133,18 @@ try {
 		<tr height="100px">
 			<th>생일</th>
 			<td>
-				<input type="date" id="member_birth" name="member_birth" value="<%=mdto.getMember_birth() %>">
+				<%
+				if(mdto.getMember_birth() == null){
+				%>
+					<input type="date" id="member_birth" name="member_birth">
+				<%
+				}
+				else{
+				%>
+					<input type="date" id="member_birth" name="member_birth" value="<%=mdto.getMember_birth() %>">
+				<%
+				}
+				%>
 			</td>
 		</tr>
 		<tr height="100px">

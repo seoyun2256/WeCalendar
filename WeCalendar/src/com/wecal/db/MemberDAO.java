@@ -201,5 +201,26 @@ public class MemberDAO {
 			}
 		}
 	}
+	
+	public void quitMeet(int member_num, int meet_num) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from member_meet where member_num=? and meet_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, member_num);
+            pstmt.setInt(2, meet_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

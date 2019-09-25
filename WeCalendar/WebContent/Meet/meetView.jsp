@@ -94,9 +94,6 @@ a:hover {
 function noMaster(){
 	alert("방장이 아니라서 일정을 생성할 수 없습니다!");
 }
-function noMaster2(){
-	alert("방장이 아니라서 모임을 삭제할 수 없습니다!");
-}
 </script>
 </head>
 <body>
@@ -273,10 +270,16 @@ function noMaster2(){
 					<input type="button" value="일정 생성하기" onclick="noMaster()">
 				</c:if>
 				<c:if test="${mnum == meet.meet_master }">
+					<input type="button" value="모임 탈퇴하기" disabled="disabled">
+				</c:if>
+				<c:if test="${mnum != meet.meet_master }">
+					<input type="button" value="모임 탈퇴하기" onclick="location.href='<c:url value='quit_meet.do'/>?meet_num=${meet.meet_num}&member_num=${mnum}'">
+				</c:if>
+				<c:if test="${mnum == meet.meet_master }">
 					<input type="button" value="모임 삭제하기" onclick="location.href='<c:url value='remove_meet.do'/>?meet_num=${meet.meet_num}'">
 				</c:if>
 				<c:if test="${mnum != meet.meet_master }">
-					<input type="button" value="모임 삭제하기" onclick="noMaster2()">
+					<input type="button" value="모임 삭제하기" disabled="disabled">
 				</c:if>
 			</td>
 		</tr>

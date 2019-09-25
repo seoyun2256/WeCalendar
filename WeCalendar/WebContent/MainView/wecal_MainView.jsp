@@ -127,6 +127,26 @@ a:hover {
 	margin-left: 10px;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+function meet(meet_num, schedule_num){
+	$.ajax({
+		type:'POST',
+		url:'member_schedule.do',
+		data:{
+			"meet_num":meet_num,
+			"schedule_num":schedule_num
+		},
+		success:function(data){
+			var win = window.open("/member_schedule.jsp","name(member_schedule.jsp)","width=500, height=600, top=200, left=200",false);
+			win.document.write(data);
+		},
+		error:function(e){
+			alert("error: "+e);
+		}
+	})
+}
+</script>
 </head>
 <%
 
@@ -197,11 +217,37 @@ try {
 						</tr>
 						<tr height="100px">
 							<th>성별</th>
-							<td><%=mdto.getMember_sex() %></td>
+							<td>
+							<%
+							if(mdto.getMember_sex() == null){
+							%>
+								비공개
+							<%
+							}
+							else{
+							%>
+								<%=mdto.getMember_sex() %>
+							<%
+							}
+							%>
+							</td>
 						</tr>
 						<tr height="100px">
 							<th>생일</th>
-							<td><%=mdto.getMember_birth() %></td>
+							<td>
+							<%
+							if(mdto.getMember_birth() == null){
+							%>
+								비공개
+							<%
+							}
+							else{
+							%>
+								<%=mdto.getMember_birth() %>
+							<%
+							}
+							%>
+							</td>
 						</tr>
 						<tr height="100px">
 							<th>가입일</th>
@@ -327,7 +373,7 @@ try {
 											
 											if(!toDay.isBefore(sDay) && toDay.isBefore(eDay.plusDays(1))){
 											%>
-											<div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div>
+											<div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);" onclick="meet(<%=sdtos.get(j).getMeet_num()%>, <%=sdtos.get(j).getSchedule_num()%>)"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div>
 											<%
 											}
 										}

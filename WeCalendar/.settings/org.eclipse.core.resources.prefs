@@ -4,6 +4,7 @@ encoding//WebContent/Join/join.jsp=UTF-8
 encoding//WebContent/Join/joinSuccess.jsp=UTF-8
 encoding//WebContent/Login/loginfailed.jsp=UTF-8
 encoding//WebContent/Login/logout.jsp=UTF-8
+encoding//WebContent/MainView/member_schedule.jsp=UTF-8
 encoding//WebContent/MainView/modify_user.jsp=UTF-8
 encoding//WebContent/MainView/modify_user_failed.jsp=UTF-8
 encoding//WebContent/MainView/wecal_LoginView.jsp=UTF-8

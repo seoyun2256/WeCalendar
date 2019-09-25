@@ -15,6 +15,7 @@ import com.wecal.command.CreateMeetWC;
 import com.wecal.command.CreateScheduleWC;
 import com.wecal.command.JoinMeetWC;
 import com.wecal.command.JoinWC;
+import com.wecal.command.QuitMeetWC;
 import com.wecal.command.RemoveMeetWC;
 import com.wecal.command.RemoveMemberWC;
 import com.wecal.command.RemoveScheduleWC;
@@ -176,6 +177,13 @@ public class WeCalController extends HttpServlet {
 			response.sendRedirect("meet_view.do?meet_num="+request.getParameter("meet_num"));
 			break;
 			
+		case "member_schedule.do":
+			request.getSession().setAttribute("meet", mtdao.oneMeet(Integer.parseInt(request.getParameter("meet_num").toString())));
+			request.getSession().setAttribute("schedule", sdao.oneSchedule(Integer.parseInt(request.getParameter("schedule_num").toString())));
+			rd = request.getRequestDispatcher("member_schedule.jsp");
+			rd.forward(request, response);
+			break;
+			
 		case "remove_schedule.do":
 			comm = new RemoveScheduleWC();
 			comm.execute(request, response);
@@ -195,6 +203,14 @@ public class WeCalController extends HttpServlet {
 			comm.execute(request, response);
 			request.getSession().invalidate();
 			rd = request.getRequestDispatcher("remove_member_success.jsp");
+			rd.forward(request, response);
+			break;
+			
+		case "quit_meet.do":
+			System.out.println("quit_meet");
+			comm = new QuitMeetWC();
+			comm.execute(request, response);
+			rd = request.getRequestDispatcher("quit_meet_success.jsp");
 			rd.forward(request, response);
 			break;
 			
