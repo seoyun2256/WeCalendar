@@ -146,6 +146,16 @@ function meet(meet_num, schedule_num){
 		}
 	})
 }
+
+function quitMember(mnum){
+	var res = confirm("정말로 탈퇴하시겠습니까?\n가입 및 생성한 모임도 함께 지워집니다.");
+	if(res == true){
+		location.href="remove_member.do?member_num="+mnum;
+	}
+	else{
+		return;
+	}
+}
 </script>
 </head>
 <%
@@ -197,7 +207,7 @@ try {
 	<header>
 		<div>
 			<h1>We Calendar</h1>
-			<input type="button" value="회원탈퇴" id="quit_btn" name="quit_btn" onclick="javascript:location.href='<c:url value='remove_member.do'/>?member_num=<%=session.getAttribute("mnum")%>'">
+			<input type="button" value="회원탈퇴" id="quit_btn" name="quit_btn" onclick="quitMember(<%=session.getAttribute("mnum")%>)">
 			<input type="button" value="로그아웃" id="logout_btn" name="logout_btn" onclick="javascript:location.href='<c:url value='logout.do'/>'">
 		</div>
 	</header>

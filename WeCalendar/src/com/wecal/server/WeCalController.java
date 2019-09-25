@@ -207,7 +207,6 @@ public class WeCalController extends HttpServlet {
 			break;
 			
 		case "quit_meet.do":
-			System.out.println("quit_meet");
 			comm = new QuitMeetWC();
 			comm.execute(request, response);
 			rd = request.getRequestDispatcher("quit_meet_success.jsp");

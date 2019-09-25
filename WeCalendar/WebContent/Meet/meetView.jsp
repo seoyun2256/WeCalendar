@@ -94,6 +94,24 @@ a:hover {
 function noMaster(){
 	alert("방장이 아니라서 일정을 생성할 수 없습니다!");
 }
+function quitMeet(meet_name, meet_num, mnum){
+	var qm = confirm("정말로 ["+meet_name+"] 모임을 탈퇴하시겠습니까?");
+	if(qm == true){
+		location.href="quit_meet.do?meet_num="+meet_num+"&member_num="+mnum;
+	}
+	else{
+		return;
+	}
+}
+function removeMeet(meet_name, meet_num){
+	var rm = confirm("정말로 ["+meet_name+"] 모임을 삭제하시겠습니까?\n해당 모임의 일정이 전부 삭제됩니다.");
+	if(rm == true){
+		location.href="remove_meet.do?meet_num="+meet_num;
+	}
+	else{
+		return;
+	}
+}
 </script>
 </head>
 <body>
@@ -273,10 +291,10 @@ function noMaster(){
 					<input type="button" value="모임 탈퇴하기" disabled="disabled">
 				</c:if>
 				<c:if test="${mnum != meet.meet_master }">
-					<input type="button" value="모임 탈퇴하기" onclick="location.href='<c:url value='quit_meet.do'/>?meet_num=${meet.meet_num}&member_num=${mnum}'">
+					<input type="button" value="모임 탈퇴하기" onclick="quitMeet('${meet.meet_name}', ${meet.meet_num}, ${mnum})">
 				</c:if>
 				<c:if test="${mnum == meet.meet_master }">
-					<input type="button" value="모임 삭제하기" onclick="location.href='<c:url value='remove_meet.do'/>?meet_num=${meet.meet_num}'">
+					<input type="button" value="모임 삭제하기" onclick="removeMeet('${meet.meet_name}', ${meet.meet_num})">
 				</c:if>
 				<c:if test="${mnum != meet.meet_master }">
 					<input type="button" value="모임 삭제하기" disabled="disabled">
