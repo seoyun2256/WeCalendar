@@ -226,33 +226,79 @@ public class MeetDAO {
 		pv.setPageCnt((int)(Math.ceil((pv.getListCnt()*1.0)/pv.getPageSize())));//pageCnt
 		pv.setRangeCnt((int)(Math.ceil((pv.getPageCnt()*1.0)/pv.getRangeSize())));//rangeCnt
 		
-		System.out.println("전체 갯수: "+pv.getListCnt());
-		System.out.println("전체 페이지: "+pv.getPageCnt());
-		System.out.println("전체 블럭: "+pv.getRangeCnt());
-		System.out.println();
+//		System.out.println("전체 갯수: "+pv.getListCnt());
+//		System.out.println("전체 페이지: "+pv.getPageCnt());
+//		System.out.println("전체 블럭: "+pv.getRangeCnt());
+//		System.out.println();
 		
 		pv.setCurrPage(currPage);//currPage;
-		System.out.println("현재페이지: "+pv.getCurrPage());
+//		System.out.println("현재페이지: "+pv.getCurrPage());
 		pv.setStartPage(((pv.getCurrPage()-1)/pv.getRangeSize())*pv.getRangeSize()+1);
-		System.out.println("시작페이지: "+pv.getStartPage());
+//		System.out.println("시작페이지: "+pv.getStartPage());
 		pv.setEndPage(pv.getStartPage()+pv.getRangeSize()-1);
 		pv.setCurrRange(pv.getEndPage()/10);
-		System.out.println("현재 블럭: "+pv.getCurrRange());
+//		System.out.println("현재 블럭: "+pv.getCurrRange());
 		if(pv.getEndPage() > pv.getPageCnt()) {
 			pv.setEndPage(pv.getPageCnt());
 		}
-		System.out.println("끝페이지: "+pv.getEndPage());
+//		System.out.println("끝페이지: "+pv.getEndPage());
 		pv.setStartIndex(((pv.getCurrPage()*pv.getPageSize())-(pv.getPageSize()-1))-1);
-		System.out.println("시작 인덱스: "+pv.getStartIndex());
+//		System.out.println("시작 인덱스: "+pv.getStartIndex());
 		pv.setEndIndex(pv.getCurrPage()*pv.getPageSize()-1);
 		if(pv.getEndIndex() >= pv.getListCnt()) {
 			pv.setEndIndex(pv.getListCnt()-1);
 		}
-		System.out.println("끝 인덱스: "+pv.getEndIndex());
-		System.out.println();
+//		System.out.println("끝 인덱스: "+pv.getEndIndex());
+//		System.out.println();
 		
 		return pv;
 		
+	}
+	
+	public void removeMeet(int meet_num) {
+		ScheduleDAO sdao = new ScheduleDAO();
+		MemberDAO mdao = new MemberDAO();
+		
+		sdao.removeMeetSchedule(meet_num);
+		mdao.remove_member_meet(meet_num);
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from meetwc where meet_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, meet_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void remove_meet_master(int meet_master) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from meetwc where meet_master=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, meet_master);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

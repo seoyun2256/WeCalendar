@@ -133,5 +133,73 @@ public class MemberDAO {
 		
 		return 0;
 	}
+	
+	public void remove_member_meet(int meet_num) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from member_meet where meet_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, meet_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void removeMember_meet(int member_num) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from member_meet where member_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, member_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void removeMember(int member_num) {
+		
+		ScheduleDAO sdao = new ScheduleDAO();
+		MeetDAO mtdao = new MeetDAO();
+		
+		sdao.removeMemberSchedule(member_num);
+		removeMember_meet(member_num);
+		mtdao.remove_meet_master(member_num);
+		
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from memberwc where member_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, member_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }

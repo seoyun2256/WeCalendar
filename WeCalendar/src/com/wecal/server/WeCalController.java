@@ -15,6 +15,9 @@ import com.wecal.command.CreateMeetWC;
 import com.wecal.command.CreateScheduleWC;
 import com.wecal.command.JoinMeetWC;
 import com.wecal.command.JoinWC;
+import com.wecal.command.RemoveMeetWC;
+import com.wecal.command.RemoveMemberWC;
+import com.wecal.command.RemoveScheduleWC;
 import com.wecal.db.MeetDAO;
 import com.wecal.db.MemberDAO;
 import com.wecal.db.MemberDTO;
@@ -97,6 +100,11 @@ public class WeCalController extends HttpServlet {
 			}
 			break;
 			
+		case "main.do":
+			request.getSession().setAttribute("schedule", sdao.member_schedule(Integer.parseInt(request.getParameter("mnum").toString())));
+			response.sendRedirect("wecal_MainView.jsp");
+			break;
+			
 		case "logout.do":
 			request.getSession().invalidate();
 			rd = request.getRequestDispatcher("../Login/logout.jsp");
@@ -166,6 +174,28 @@ public class WeCalController extends HttpServlet {
 			comm = new CreateScheduleWC();
 			comm.execute(request, response);
 			response.sendRedirect("meet_view.do?meet_num="+request.getParameter("meet_num"));
+			break;
+			
+		case "remove_schedule.do":
+			comm = new RemoveScheduleWC();
+			comm.execute(request, response);
+			rd = request.getRequestDispatcher("remove_schedule_success.jsp?meet_num="+request.getParameter("meet_num"));
+			rd.forward(request, response);
+			break;
+			
+		case "remove_meet.do":
+			comm = new RemoveMeetWC();
+			comm.execute(request, response);
+			rd = request.getRequestDispatcher("remove_meet_success.jsp");
+			rd.forward(request, response);
+			break;
+			
+		case "remove_member.do":
+			comm = new RemoveMemberWC();
+			comm.execute(request, response);
+			request.getSession().invalidate();
+			rd = request.getRequestDispatcher("remove_member_success.jsp");
+			rd.forward(request, response);
 			break;
 			
 		}

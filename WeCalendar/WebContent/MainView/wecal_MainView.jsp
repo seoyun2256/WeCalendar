@@ -115,7 +115,7 @@ a:hover {
 	height: 94px;
 }
 
-#logout_btn {
+#logout_btn, #quit_btn {
 	float: right;
 	border: 0px;
 	background-color: red;
@@ -124,6 +124,7 @@ a:hover {
 	color: white;
 	font-weight: 600;
 	font-size: 12pt;
+	margin-left: 10px;
 }
 </style>
 </head>
@@ -140,7 +141,7 @@ String[] ddds = null;
 String birth = "";
 String ddd = "";
 
-System.out.println(session.getAttribute("mnum"));
+//System.out.println(session.getAttribute("mnum"));
 
 try {
     Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -176,6 +177,7 @@ try {
 	<header>
 		<div>
 			<h1>We Calendar</h1>
+			<input type="button" value="회원탈퇴" id="quit_btn" name="quit_btn" onclick="javascript:location.href='<c:url value='remove_member.do'/>?member_num=<%=session.getAttribute("mnum")%>'">
 			<input type="button" value="로그아웃" id="logout_btn" name="logout_btn" onclick="javascript:location.href='<c:url value='logout.do'/>'">
 		</div>
 	</header>

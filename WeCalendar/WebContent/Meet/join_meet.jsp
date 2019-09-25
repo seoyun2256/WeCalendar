@@ -60,7 +60,7 @@ thead {
 		<thead>
 			<!-- 검색 창 -->
 			<tr>
-				<td><input type="button" value="메인화면" onclick="location.href='../MainView/wecal_MainView.jsp'" style="width: 100%;"></td>
+				<td><input type="button" value="메인화면" onclick="location.href='../MainView/main.do?mnum=<%=request.getSession().getAttribute("mnum") %>'" style="width: 100%;"></td>
 				<td colspan="2">
 					<form action="join_meet.do" method="post">
 						<input type="hidden" id="currPage" name="currPage" value="1">

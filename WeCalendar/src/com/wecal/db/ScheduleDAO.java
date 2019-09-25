@@ -143,4 +143,64 @@ public class ScheduleDAO {
 		return sdto;
 	}
 	
+	public void removeSchedule(int schedule_num) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from schedulewc where schedule_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, schedule_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void removeMeetSchedule(int meet_num) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from schedulewc where meet_num=?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, meet_num);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void removeMemberSchedule(int meet_master) {
+		try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","wecal_admin","oracle_11g");
+            String sql = "delete from schedulewc where meet_num in (select meet_num from meetwc where meet_master=?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, meet_master);
+            pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

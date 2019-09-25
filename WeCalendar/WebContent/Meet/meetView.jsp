@@ -94,6 +94,9 @@ a:hover {
 function noMaster(){
 	alert("방장이 아니라서 일정을 생성할 수 없습니다!");
 }
+function noMaster2(){
+	alert("방장이 아니라서 모임을 삭제할 수 없습니다!");
+}
 </script>
 </head>
 <body>
@@ -220,7 +223,7 @@ function noMaster(){
 										
 										if(!toDay.isBefore(sDay) && toDay.isBefore(eDay.plusDays(1))){
 										%>
-										<a href="../Schedule/scheduleView.jsp?schedule_num=<%=sdtos.get(j).getSchedule_num() %>" target="schedule_frame"><div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div></a>
+										<a href="../Schedule/scheduleView.jsp?schedule_num=<%=sdtos.get(j).getSchedule_num()%>&meet_master=${meet.meet_master}" target="schedule_frame"><div style="background-color: rgb(<%=colors[j]%>,<%=colors[j+1]%>,<%=colors[j+2]%>);"><font style="text-shadow: 0 0 4px #000000; color: white;"><%=sdtos.get(j).getSchedule_name()%></font></div></a>
 										<%
 										}
 									}
@@ -262,12 +265,18 @@ function noMaster(){
 		</tr>
 		<tr>
 			<td align="right">
-				<input type="button" value="뒤로가기" onclick="location.href='../MainView/wecal_MainView.jsp'">
+				<input type="button" value="뒤로가기" onclick="location.href='../MainView/main.do?mnum=${mnum}'">
 				<c:if test="${mnum == meet.meet_master }">
 					<input type="button" value="일정 생성하기" onclick="location.href='../Schedule/create_schedule.jsp?meet_name=${meet.meet_name}&meet_num=${meet.meet_num}'">
 				</c:if>
 				<c:if test="${mnum != meet.meet_master }">
 					<input type="button" value="일정 생성하기" onclick="noMaster()">
+				</c:if>
+				<c:if test="${mnum == meet.meet_master }">
+					<input type="button" value="모임 삭제하기" onclick="location.href='<c:url value='remove_meet.do'/>?meet_num=${meet.meet_num}'">
+				</c:if>
+				<c:if test="${mnum != meet.meet_master }">
+					<input type="button" value="모임 삭제하기" onclick="noMaster2()">
 				</c:if>
 			</td>
 		</tr>
