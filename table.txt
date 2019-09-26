@@ -1,0 +1,55 @@
+create table memberwc(
+member_num number(8) primary key,
+member_name varchar2(10) not null,
+member_id varchar2(30) not null,
+member_pwd varchar2(30) not null,
+member_date varchar2(15),
+member_birth varchar2(15),
+member_sex varchar2(5)
+);
+
+create table meetwc(
+meet_num number(8) primary key,
+meet_name varchar2(30) not null,
+meet_content varchar2(100),
+meet_master number(8),
+foreign key(meet_master) references memberwc(member_num)
+);
+
+create table member_meet(
+member_num number(8),
+meet_num number(8),
+foreign key(member_num) references memberwc(member_num),
+foreign key(meet_num) references meetwc(meet_num)
+);
+
+create table schedulewc(
+schedule_num number(8) primary key,
+schedule_name varchar2(30) not null,
+schedule_content varchar2(100),
+schedule_startday varchar2(15) not null,
+schedule_endday varchar2(15) not null,
+meet_num number(8),
+foreign key(meet_num) references meetwc(meet_num)
+);
+
+create sequence member_seq
+start with 1
+increment by 1
+
+create sequence meet_seq
+start with 1
+increment by 1
+
+create sequence schedule_seq
+start with 1
+increment by 1
+
+
+<%
+response.setDateHeader("Expires", -1);
+response.setHeader("Pragma", "no-cache");
+if(request.getProtocol().equals("HTTP/1.1")){
+	response.setHeader("Cache-Control", "no-cache");
+}
+%>
