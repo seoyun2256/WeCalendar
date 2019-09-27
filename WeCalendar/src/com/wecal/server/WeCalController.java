@@ -179,7 +179,7 @@ public class WeCalController extends HttpServlet {
 			
 		case "member_schedule.do":
 			request.getSession().setAttribute("meet", mtdao.oneMeet(Integer.parseInt(request.getParameter("meet_num").toString())));
-			request.getSession().setAttribute("schedule", sdao.oneSchedule(Integer.parseInt(request.getParameter("schedule_num").toString())));
+			request.getSession().setAttribute("sd", sdao.oneSchedule(Integer.parseInt(request.getParameter("schedule_num").toString())));
 			rd = request.getRequestDispatcher("member_schedule.jsp");
 			rd.forward(request, response);
 			break;
